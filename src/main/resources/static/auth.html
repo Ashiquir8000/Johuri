@@ -85,9 +85,21 @@
             transform: scale(0.98);
         }
     </style>
+    <link rel="stylesheet" href="mobile-nav.css">
 </head>
-<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex items-center justify-center p-3 sm:p-6 lg:p-10 relative overflow-x-hidden">
+<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex items-center justify-center p-3 sm:p-6 lg:p-10 pt-16 lg:pt-10 relative overflow-x-hidden">
     
+    <!-- Mobile Top Navigation Bar (Hidden on desktop) -->
+    <nav class="fixed top-0 left-0 w-full z-40 glass-nav py-3 px-4 flex justify-between items-center lg:hidden">
+        <a href="index.html" class="flex items-center gap-2">
+            <span class="font-bangla font-bold text-xl gradient-text">জহুরী</span>
+            <span class="font-sans text-base font-bold text-white">Johuri.ai</span>
+        </a>
+        <button id="mobileNavToggle" aria-label="Open Mobile Menu" class="mobile-nav-toggle-btn">
+            <i data-lucide="menu" size="22"></i>
+        </button>
+    </nav>
+
     <!-- Ambient Background Blobs -->
     <div class="blob-bg"></div>
     <div class="blob-bg-2"></div>
@@ -686,5 +698,6 @@
             }
         }
     </script>
+    <script src="mobile-nav.js"></script>
 </body>
 </html>

@@ -32,6 +32,7 @@
         .blob-bg { position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vh; background: rgba(129, 140, 248, 0.08); filter: blur(160px); border-radius: 50%; z-index: -1; pointer-events: none; }
         .blob-bg-2 { position: fixed; bottom: -10%; right: -10%; width: 45vw; height: 45vh; background: rgba(110, 231, 183, 0.06); filter: blur(140px); border-radius: 50%; z-index: -1; pointer-events: none; }
     </style>
+    <link rel="stylesheet" href="mobile-nav.css">
 </head>
 <body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
@@ -86,6 +87,10 @@
                     <i data-lucide="shield" size="14"></i>
                     <span>Admin Portal</span>
                 </div>
+                <!-- Mobile Hamburger Toggle Button -->
+                <button id="mobileNavToggle" aria-label="Open Mobile Menu" class="mobile-nav-toggle-btn md:hidden">
+                    <i data-lucide="menu" size="22"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -328,6 +333,7 @@
 
     <script src="auth.js"></script>
     <script src="admin.js"></script>
+    <script src="mobile-nav.js"></script>
 </body>
 </html>
 

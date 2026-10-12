@@ -33,6 +33,7 @@
         .blob-2 { position: absolute; bottom: 10%; right: 15%; width: 400px; height: 400px; background: rgba(110, 231, 183, 0.15); filter: blur(100px); border-radius: 50%; z-index: 0; pointer-events: none; }
         .blob-3 { position: absolute; top: 40%; left: 50%; width: 250px; height: 250px; transform: translate(-50%, -50%); background: rgba(252, 211, 77, 0.1); filter: blur(80px); border-radius: 50%; z-index: 0; pointer-events: none; }
     </style>
+    <link rel="stylesheet" href="mobile-nav.css">
 </head>
 <body class="bg-navy-900 text-white font-sans antialiased relative">
     
@@ -83,6 +84,10 @@
                 <a href="creator-dashboard.html" class="hover:text-pastel-amber transition">Creator Dashboard</a>
                 <button class="bg-gradient-to-r from-pastel-indigo to-pastel-mint text-navy-900 px-6 py-2.5 rounded-full font-bold hover:shadow-[0_0_20px_rgba(110,231,183,0.5)] transition transform hover:scale-105">Login / Claim</button>
             </div>
+            <!-- Mobile Hamburger Toggle Button -->
+            <button id="mobileNavToggle" aria-label="Open Mobile Menu" class="mobile-nav-toggle-btn md:hidden">
+                <i data-lucide="menu" size="22"></i>
+            </button>
         </div>
     </nav>
 
@@ -208,5 +213,7 @@
     <script>
         lucide.createIcons();
     </script>
-<script src="auth.js"></script></body>
+<script src="auth.js"></script>
+<script src="mobile-nav.js"></script>
+</body>
 </html>
