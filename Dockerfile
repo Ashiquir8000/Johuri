@@ -16,7 +16,7 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # Copy the generated JAR from build stage
