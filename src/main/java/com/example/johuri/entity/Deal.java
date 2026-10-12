@@ -29,6 +29,8 @@ public class Deal {
     private Status status;
     private String invoicePdfUrl;
     private Instant createdAt;
+    private CreatorProfile.AIEvaluation aiEvaluation;
+    private CreatorProfile.PublicStats performanceMetrics;
 
     public enum Status {
         IN_DISCUSSION,

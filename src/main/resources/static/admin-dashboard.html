@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin & Moderator Dispute Portal - Johuri.ai</title>
+    <script src="auth-guard.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#1E293B', 900: '#0F172A' },
+                        pastel: { indigo: '#818CF8', mint: '#6EE7B7', amber: '#FCD34D' }
+                    },
+                    fontFamily: {
+                        bangla: ['"Hind Siliguri"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(129, 140, 248, 0.2); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); transition: all 0.25s ease; }
+        .glass-card:hover { border-color: rgba(110, 231, 183, 0.5); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8, #6EE7B7, #FCD34D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blob-bg { position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vh; background: rgba(129, 140, 248, 0.08); filter: blur(160px); border-radius: 50%; z-index: -1; pointer-events: none; }
+        .blob-bg-2 { position: fixed; bottom: -10%; right: -10%; width: 45vw; height: 45vh; background: rgba(110, 231, 183, 0.06); filter: blur(140px); border-radius: 50%; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <div class="blob-bg"></div>
+    <div class="blob-bg-2"></div>
+
+    <!-- Top Admin Header Banner (when session unverified) -->
+    <div id="adminAuthWarning" class="bg-gradient-to-r from-rose-900/90 via-navy-900 to-rose-900/90 border-b border-rose-500/30 px-4 py-2 text-xs text-rose-200 hidden flex items-center justify-between z-50">
+        <div class="flex items-center gap-2 max-w-4xl mx-auto w-full justify-between">
+            <span class="flex items-center gap-2">
+                <i data-lucide="shield-alert" size="16" class="text-rose-400"></i>
+                <span>You are currently not authenticated as <strong>ROLE_ADMIN</strong>. Financial overrides require admin claims.</span>
+            </span>
+            <button onclick="quickAdminLogin()" class="bg-rose-500 hover:bg-rose-400 text-white font-bold px-3 py-1 rounded-lg text-xs transition flex items-center gap-1 shadow-sm">
+                <i data-lucide="key" size="12"></i> 1-Click Master Admin Login
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 w-full z-40 glass-nav py-4">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <svg viewBox="0 0 48 48" class="w-9 h-9 group-hover:scale-105 transition transform" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradientNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradientNav)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+                <div class="flex items-center gap-2">
+                    <span class="font-bangla font-bold text-2xl tracking-wide gradient-text leading-none mt-1">জহুরী</span>
+                    <span class="font-sans text-xl font-bold text-white leading-none mt-1">Johuri.ai</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex gap-5 items-center font-semibold text-xs text-gray-300">
+                    <a href="creators.html" class="hover:text-pastel-mint transition">Marketplace</a>
+                    <a href="brand-dashboard.html" class="hover:text-pastel-indigo transition">Brand Dashboard</a>
+                    <a href="creator-dashboard.html" class="hover:text-pastel-amber transition">Creator Studio</a>
+                </div>
+                <div class="flex items-center gap-2 bg-rose-500/10 border border-rose-500/40 text-rose-300 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-sm">
+                    <i data-lucide="shield" size="14"></i>
+                    <span>Admin Portal</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 py-8 w-full relative z-10 space-y-10">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/5 pb-6">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="bg-pastel-indigo/20 text-pastel-indigo border border-pastel-indigo/30 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Module 2</span>
+                    <span class="text-xs text-gray-400">Escrow Governance & Dispute Resolution</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white">Dispute & Governance <span class="gradient-text">Portal</span></h1>
+                <p class="text-sm text-gray-400 mt-1">Arbitrate brand & creator conflicts, execute emergency force-releases, and monitor platform ledgers.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="fetchOverviewMetrics(); fetchDealsList(currentFilter);" class="bg-navy-800 hover:bg-navy-700 border border-white/10 text-gray-200 hover:text-white px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="refresh-cw" size="14"></i> Sync Ledgers
+                </button>
+            </div>
+        </div>
+
+        <!-- Section A: Top Analytics Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1 border-pastel-mint/30">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-pastel-mint"><i data-lucide="shield" size="44"></i></div>
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Total Escrow Vault</h3>
+                <div id="statTotalVault" class="text-3xl font-extrabold font-mono text-pastel-mint">৳ 0</div>
+                <p class="text-xs text-pastel-mint/80 mt-2 font-sans flex items-center gap-1"><i data-lucide="lock" size="12"></i> Active funds locked</p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1 border-rose-500/40">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-rose-400"><i data-lucide="alert-triangle" size="44"></i></div>
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Pending Disputes</h3>
+                <div id="statPendingDisputes" class="text-3xl font-extrabold font-mono text-rose-400">0</div>
+                <p class="text-xs text-rose-400 mt-2 font-sans flex items-center gap-1"><i data-lucide="gavel" size="12"></i> Action required</p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1 border-pastel-amber/30">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-pastel-amber"><i data-lucide="coins" size="44"></i></div>
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Platform Earnings (10%)</h3>
+                <div id="statPlatformCommission" class="text-3xl font-extrabold font-mono text-pastel-amber">৳ 0</div>
+                <p class="text-xs text-gray-400 mt-2 font-sans">Accumulated commission</p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1 border-pastel-indigo/30">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition text-pastel-indigo"><i data-lucide="layers" size="44"></i></div>
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Active Campaigns</h3>
+                <div id="statActiveCampaigns" class="text-3xl font-extrabold font-mono text-white">0</div>
+                <p class="text-xs text-gray-400 mt-2 font-sans">In escrow or production</p>
+            </div>
+        </div>
+
+        <!-- Section B: Dispute Resolution Control Panel -->
+        <div class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
+                        <i data-lucide="gavel" size="18"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Active Escrow Disputes & Moderator Intervention</h2>
+                        <p class="text-xs text-gray-400">Review contested deliverables and execute binding overrides with mandatory audit notes.</p>
+                    </div>
+                </div>
+                <span id="disputeBadgeCount" class="text-xs font-bold px-3 py-1 rounded-full border bg-navy-800 text-gray-300 border-white/10">0 Open</span>
+            </div>
+
+            <div id="disputesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- Section C: Deliverables Pending Moderator Review -->
+        <div class="space-y-4">
+            <div class="flex items-center gap-2">
+                <i data-lucide="video" class="text-pastel-amber" size="20"></i>
+                <h3 class="text-lg font-bold text-white">Deliverables Submitted for Quality Verification</h3>
+            </div>
+            <div id="deliverablesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- Section D: Global Deals Ledger Table -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6 border-white/10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i data-lucide="book-open" class="text-pastel-indigo"></i> Global Escrow Transactions Ledger
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Real-time searchable data grid of all brand & creator agreements across Johuri.ai.</p>
+                </div>
+                <div class="w-full md:w-72 relative">
+                    <i data-lucide="search" size="14" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="dealsSearchInput" oninput="handleSearchTable(this.value)" placeholder="Search by deal ID, brand, creator..." 
+                           class="w-full bg-navy-900 border border-white/10 rounded-xl py-2 pl-9 pr-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint transition">
+                </div>
+            </div>
+
+            <!-- Tab Filters -->
+            <div class="flex flex-wrap gap-2 border-b border-white/5 pb-4 text-xs font-semibold">
+                <button id="tab-ALL" onclick="filterDealsByTab('ALL')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition bg-pastel-indigo text-white shadow-md">All Deals</button>
+                <button id="tab-DISPUTED" onclick="filterDealsByTab('DISPUTED')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition text-gray-400 bg-navy-800/80 hover:text-white">⚠️ Disputed</button>
+                <button id="tab-IN_ESCROW" onclick="filterDealsByTab('IN_ESCROW')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition text-gray-400 bg-navy-800/80 hover:text-white">🔒 In Escrow</button>
+                <button id="tab-DELIVERABLE_SUBMITTED" onclick="filterDealsByTab('DELIVERABLE_SUBMITTED')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition text-gray-400 bg-navy-800/80 hover:text-white">📤 Deliverable Submitted</button>
+                <button id="tab-COMPLETED" onclick="filterDealsByTab('COMPLETED')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition text-gray-400 bg-navy-800/80 hover:text-white">✓ Completed</button>
+                <button id="tab-FORCE_RELEASED" onclick="filterDealsByTab('FORCE_RELEASED')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition text-gray-400 bg-navy-800/80 hover:text-white">⚖️ Force Released</button>
+                <button id="tab-REFUNDED" onclick="filterDealsByTab('REFUNDED')" class="filter-tab-btn px-3 py-1.5 rounded-xl transition text-gray-400 bg-navy-800/80 hover:text-white">↩️ Refunded</button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 text-gray-400 text-xs uppercase tracking-wider">
+                            <th class="py-3 px-4 font-semibold">Deal Reference</th>
+                            <th class="py-3 px-4 font-semibold">Brand Partner</th>
+                            <th class="py-3 px-4 font-semibold">Creator</th>
+                            <th class="py-3 px-4 font-semibold">Amount (BDT)</th>
+                            <th class="py-3 px-4 font-semibold">Escrow State</th>
+                            <th class="py-3 px-4 font-semibold">Deliverable Proof</th>
+                            <th class="py-3 px-4 font-semibold text-right">Moderation Override</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminDealsTableBody" class="text-xs">
+                        <!-- Populated by admin.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal 1: Force Release / Refund Confirmation Modal -->
+    <div id="resolutionModal" onclick="if(event.target === this) closeResolutionModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/85 backdrop-blur-md hidden transition-opacity duration-200">
+        <div class="glass-card bg-navy-900/95 border border-white/20 rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl relative">
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
+                        <i data-lucide="shield-alert" size="20"></i>
+                    </div>
+                    <div>
+                        <h3 id="modalResolutionTitle" class="text-lg font-bold text-white">Execute Financial Override</h3>
+                        <p class="text-xs text-gray-400">Deal: <span id="modalDealId" class="font-mono text-pastel-mint font-bold">JD-XXXX</span></p>
+                    </div>
+                </div>
+                <button onclick="closeResolutionModal()" class="text-gray-400 hover:text-white bg-navy-800 p-2 rounded-xl transition">
+                    <i data-lucide="x" size="18"></i>
+                </button>
+            </div>
+
+            <div class="bg-navy-800/80 p-4 rounded-2xl border border-white/5 space-y-2 text-xs mb-5">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Brand Partner:</span>
+                    <span id="modalBrand" class="font-semibold text-white">Brand</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Creator Handle:</span>
+                    <span id="modalCreator" class="font-semibold text-pastel-mint">@creator</span>
+                </div>
+                <div class="flex justify-between border-t border-white/5 pt-2">
+                    <span class="text-gray-400 font-bold uppercase text-[10px]">Escrow Amount:</span>
+                    <span id="modalAmount" class="font-bold font-mono text-pastel-amber text-sm">৳ 0</span>
+                </div>
+            </div>
+
+            <p id="modalResolutionDesc" class="text-xs text-gray-300 mb-4 leading-relaxed"></p>
+
+            <form onsubmit="handleResolutionSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1.5">
+                        Mandatory Admin Audit Resolution Note <span class="text-rose-400">*</span>
+                    </label>
+                    <textarea id="adminResolutionNotes" required rows="3" placeholder="Provide formal justification for this financial override (e.g., 'Creator provided full 60s integration as agreed on timestamp 04:12 with verified brand URL')." 
+                              class="w-full bg-navy-800 border border-white/10 rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition"></textarea>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeResolutionModal()" class="flex-1 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold py-3 rounded-xl text-xs transition">
+                        Cancel
+                    </button>
+                    <button type="submit" id="modalConfirmBtn" class="flex-1 font-bold py-3 rounded-xl text-xs transition shadow-md">
+                        Execute Override
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: Deliverable Quality Review Modal -->
+    <div id="deliverableModal" onclick="if(event.target === this) closeReviewModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/85 backdrop-blur-md hidden transition-opacity duration-200">
+        <div class="glass-card bg-navy-900/95 border border-white/20 rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl relative">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Review Creator Deliverable</h3>
+                    <p class="text-xs text-gray-400 mt-0.5"><span id="reviewBrandCreator" class="text-gray-300"></span> &bull; <span id="reviewDealId" class="font-mono text-pastel-indigo"></span></p>
+                </div>
+                <button onclick="closeReviewModal()" class="text-gray-400 hover:text-white bg-navy-800 p-2 rounded-xl transition">
+                    <i data-lucide="x" size="18"></i>
+                </button>
+            </div>
+
+            <div class="bg-navy-800/80 p-4 rounded-2xl border border-white/5 mb-4 text-xs">
+                <span class="text-gray-400 font-semibold block text-[10px] uppercase mb-1">YouTube Deliverable URL:</span>
+                <a id="reviewProofUrl" href="#" target="_blank" class="text-pastel-mint underline font-mono text-xs break-all flex items-center gap-1.5">
+                    <i data-lucide="play" size="14"></i> <span></span>
+                </a>
+            </div>
+
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-xs text-gray-400">Action to execute:</span>
+                <span id="reviewActionBadge" class="text-xs font-bold px-2.5 py-1 rounded-full"></span>
+            </div>
+
+            <form onsubmit="handleReviewSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1.5">
+                        Admin Quality & Compliance Notes <span class="text-pastel-mint">*</span>
+                    </label>
+                    <textarea id="reviewNotes" required rows="3" placeholder="Notes on video quality, placement, and verbal brand shoutout..." 
+                              class="w-full bg-navy-800 border border-white/10 rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint transition"></textarea>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeReviewModal()" class="flex-1 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold py-3 rounded-xl text-xs transition">
+                        Cancel
+                    </button>
+                    <button type="submit" id="reviewSubmitBtn" class="flex-1 font-bold py-3 rounded-xl text-xs transition shadow-md">
+                        Confirm Action
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="border-t border-white/10 py-8 text-center text-gray-500 text-xs mt-auto bg-navy-900/80 backdrop-blur-md relative z-10">
+        <p class="font-sans">&copy; 2026 <span class="text-white font-bold">Johuri.ai</span> — Master Dispute & Escrow Governance Console</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
+

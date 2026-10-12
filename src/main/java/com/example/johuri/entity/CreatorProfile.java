@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -30,6 +31,8 @@ public class CreatorProfile {
     private PublicStats publicStats;
     private List<ServicePackage> servicePackages;
     private PaymentDetails paymentDetails;
+    private Map<String, Object> creatorRateCard;
+    private AIEvaluation aiEvaluation;
 
     public enum VerificationStatus {
         UNCLAIMED,
@@ -45,6 +48,19 @@ public class CreatorProfile {
         private Long totalViews;
         private Long totalVideos;
         private Double avgViews;
+        private Double engagementRate;
+        private Double audienceSentimentScore;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class AIEvaluation {
+        private Long fairMarketValueMin;
+        private Long fairMarketValueMax;
+        private String recommendedValuationTag;
+        private String performanceSummary;
     }
 
     @Data

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Marketplace - Johuri.ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#1E293B', 900: '#0F172A' },
+                        pastel: { indigo: '#818CF8', mint: '#6EE7B7', amber: '#FCD34D' }
+                    },
+                    fontFamily: {
+                        bangla: ['"Hind Siliguri"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(129, 140, 248, 0.2); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(110, 231, 183, 0.6); box-shadow: 0 0 25px rgba(110, 231, 183, 0.2); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8, #6EE7B7, #FCD34D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .blob-bg { position: fixed; top: 20%; left: -10%; width: 50vw; height: 50vh; background: rgba(129, 140, 248, 0.1); filter: blur(150px); border-radius: 50%; z-index: -1; pointer-events: none; }
+        .blob-bg-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vh; background: rgba(110, 231, 183, 0.08); filter: blur(120px); border-radius: 50%; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+    
+    <div class="blob-bg"></div>
+    <div class="blob-bg-2"></div>
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 w-full z-50 glass-nav py-4">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-4 group">
+                <!-- Re-usable Brand Logo (Nav) -->
+                <svg viewBox="0 0 48 48" class="w-10 h-10 group-hover:scale-105 transition transform" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradientNavCreators" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Base Layer: 3 Banknotes -->
+                    <g transform="translate(24, 24) rotate(-15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#6EE7B7" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="4" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#FCD34D" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                    </g>
+                    <!-- Top Layer: Thumbs Up -->
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradientNavCreators)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+                <div class="flex items-center gap-2">
+                    <span class="font-bangla font-bold text-2xl tracking-wide gradient-text leading-none mt-1">জহুরী</span>
+                    <span class="font-sans text-xl font-bold text-white leading-none mt-1">Johuri.ai</span>
+                </div>
+            </a>
+            <div class="flex-1 max-w-lg mx-8 hidden md:block">
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-gradient-to-r from-pastel-indigo to-pastel-mint rounded-full blur opacity-25 group-hover:opacity-50 transition"></div>
+                    <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-pastel-mint z-10" size="18"></i>
+                    <input type="text" id="searchInput" placeholder="Search creators by handle..." class="relative w-full bg-navy-800/90 border border-pastel-indigo/40 rounded-full py-2.5 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition shadow-inner">
+                </div>
+            </div>
+            <div class="hidden lg:flex gap-6 items-center font-semibold text-sm relative z-20">
+                <a href="brand-dashboard.html" class="hover:text-pastel-indigo transition">Brand Dashboard</a>
+                <a href="creator-dashboard.html" class="hover:text-pastel-amber transition">Creator Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Search -->
+    <div class="md:hidden p-4 relative z-10">
+        <div class="relative">
+            <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-pastel-mint" size="18"></i>
+            <input type="text" id="mobileSearchInput" placeholder="Search creators..." class="w-full bg-navy-800/90 border border-pastel-indigo/40 rounded-full py-3 pl-12 pr-4 text-white focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint shadow-inner">
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 py-10 w-full relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/10 pb-6">
+            <div>
+                <h1 class="text-4xl font-extrabold mb-3">Creator <span class="gradient-text">Marketplace</span></h1>
+                <p class="text-gray-400 text-lg">Discover, evaluate, and sponsor verified talent.</p>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="flex flex-col justify-center items-center py-32">
+            <i data-lucide="loader-2" class="animate-spin text-pastel-mint mb-4 drop-shadow-[0_0_15px_rgba(110,231,183,0.5)]" size="48"></i>
+            <p class="text-gray-400 font-bold tracking-widest uppercase text-sm">Fetching Analytics...</p>
+        </div>
+
+        <!-- Error / Empty State -->
+        <div id="emptyState" class="hidden text-center py-32">
+            <div class="bg-navy-800/50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5 shadow-inner">
+                <i data-lucide="user-x" class="text-gray-500" size="40"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 text-white">No creators found</h3>
+            <p class="text-gray-400">Try adjusting your search criteria or explore a different niche.</p>
+        </div>
+
+        <!-- Creators Grid -->
+        <div id="creatorsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 hidden">
+            <!-- Cards injected via JS -->
+        </div>
+
+        <!-- AI Pitch & Proposal Modal -->
+        <div id="pitchModal" onclick="if(event.target === this) closePitchModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/80 backdrop-blur-md hidden transition-opacity duration-300">
+            <div class="glass-card bg-navy-900/95 border border-pastel-indigo/40 rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto flex flex-col">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-start pb-4 border-b border-white/10 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-pastel-indigo to-pastel-mint p-[2px] shadow-lg flex-shrink-0">
+                            <div class="bg-navy-900 w-full h-full rounded-2xl flex items-center justify-center text-pastel-amber">
+                                <i data-lucide="sparkles" size="24"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-2xl font-bold text-white">AI Pitch & Proposal</h3>
+                                <span class="bg-pastel-indigo/20 text-pastel-indigo text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border border-pastel-indigo/40">Gemini 2.0</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-0.5">Craft a high-converting sponsorship proposal for <span id="pitchCreatorHandle" class="text-pastel-mint font-bold">@creator</span></p>
+                        </div>
+                    </div>
+                    <button onclick="closePitchModal()" class="text-gray-400 hover:text-white bg-navy-800/80 hover:bg-navy-800 p-2 rounded-xl transition border border-white/5">
+                        <i data-lucide="x" size="20"></i>
+                    </button>
+                </div>
+
+                <!-- Pitch Input Form View -->
+                <div id="pitchFormView">
+                    <form id="pitchForm" onsubmit="handlePitchSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">Brand Name <span class="text-pastel-mint">*</span></label>
+                            <div class="relative">
+                                <i data-lucide="briefcase" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size="16"></i>
+                                <input type="text" id="pitchBrandName" required placeholder="e.g. Chaldal, Pathao, Samsung, Walton" 
+                                       class="w-full bg-navy-800/90 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">Campaign Category</label>
+                                <div class="relative">
+                                    <i data-lucide="tag" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size="16"></i>
+                                    <input type="text" id="pitchCategory" placeholder="e.g. E-Commerce, FinTech, Tech Gadgets" 
+                                           class="w-full bg-navy-800/90 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">Target Budget (BDT)</label>
+                                <div class="relative">
+                                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-pastel-amber font-bold text-sm">৳</span>
+                                    <input type="number" id="pitchBudget" placeholder="e.g. 150000" min="5000" step="5000"
+                                           class="w-full bg-navy-800/90 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">Target Audience</label>
+                            <div class="relative">
+                                <i data-lucide="users" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size="16"></i>
+                                <input type="text" id="pitchAudience" placeholder="e.g. Urban Gen-Z & Tech enthusiasts in Bangladesh" 
+                                       class="w-full bg-navy-800/90 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition">
+                            </div>
+                        </div>
+
+                        <div class="pt-3">
+                            <button type="submit" id="pitchSubmitBtn" class="w-full bg-gradient-to-r from-pastel-indigo via-pastel-mint to-pastel-amber text-navy-900 font-extrabold py-3.5 px-6 rounded-xl hover:opacity-95 transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(110,231,183,0.3)]">
+                                <i data-lucide="sparkles" size="18"></i>
+                                <span>Generate AI Pitch with Gemini</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Loading Spinner View -->
+                <div id="pitchLoadingView" class="hidden flex flex-col items-center justify-center py-16 text-center space-y-4">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full border-4 border-pastel-indigo/20 border-t-pastel-mint animate-spin"></div>
+                        <i data-lucide="bot" class="absolute inset-0 m-auto text-pastel-mint animate-pulse" size="24"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-1">AI analyzing channel telemetry & crafting pitch...</h4>
+                        <p class="text-xs text-gray-400">Synthesizing audience demographics, CPM benchmarks, and strategic deliverables...</p>
+                    </div>
+                </div>
+
+                <!-- Result Pitch View -->
+                <div id="pitchResultView" class="hidden space-y-6">
+                    <div class="space-y-4 text-left">
+                        <!-- Part 1: Hook & Match Rationale -->
+                        <div class="bg-navy-800/60 border border-pastel-indigo/30 rounded-2xl p-5 shadow-inner">
+                            <div class="flex items-center gap-2 text-pastel-indigo font-bold text-sm mb-2">
+                                <i data-lucide="target" size="16"></i>
+                                <span>1. Hook & Match Rationale</span>
+                            </div>
+                            <p id="pitchResultHook" class="text-sm text-gray-200 leading-relaxed whitespace-pre-line"></p>
+                        </div>
+
+                        <!-- Part 2: Deliverables Strategy -->
+                        <div class="bg-navy-800/60 border border-pastel-mint/30 rounded-2xl p-5 shadow-inner">
+                            <div class="flex items-center gap-2 text-pastel-mint font-bold text-sm mb-2">
+                                <i data-lucide="package" size="16"></i>
+                                <span>2. Deliverables & Creative Strategy</span>
+                            </div>
+                            <p id="pitchResultDeliverables" class="text-sm text-gray-200 leading-relaxed whitespace-pre-line"></p>
+                        </div>
+
+                        <!-- Part 3: Projected ROI & Strategic CPM Metrics -->
+                        <div class="bg-navy-800/60 border border-pastel-amber/30 rounded-2xl p-5 shadow-inner">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-2 text-pastel-amber font-bold text-sm">
+                                    <i data-lucide="trending-up" size="16"></i>
+                                    <span>3. Projected ROI & Strategic CPM Metrics</span>
+                                </div>
+                                <span id="pitchRoiBudgetTag" class="text-[11px] font-mono font-bold bg-pastel-amber/10 text-pastel-amber px-2.5 py-0.5 rounded-full border border-pastel-amber/30"></span>
+                            </div>
+
+                            <!-- Dynamic Strategic Metrics Pills -->
+                            <div id="pitchMetricsPillsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                                <div class="bg-navy-900/80 p-3 rounded-xl border border-white/5 flex flex-col">
+                                    <span class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-0.5 flex items-center gap-1">
+                                        <i data-lucide="eye" size="12" class="text-pastel-mint"></i> Projected Audience Reach
+                                    </span>
+                                    <span id="pitchResultReach" class="text-sm font-extrabold text-white font-mono">Dynamic Impressions</span>
+                                </div>
+                                <div class="bg-navy-900/80 p-3 rounded-xl border border-white/5 flex flex-col">
+                                    <span class="text-[10px] text-gray-400 uppercase tracking-widest font-bold mb-0.5 flex items-center gap-1">
+                                        <i data-lucide="tag" size="12" class="text-pastel-indigo"></i> Strategic Benchmark CPM
+                                    </span>
+                                    <span id="pitchResultCPM" class="text-sm font-extrabold text-white font-mono">৳140 – ৳190 BDT</span>
+                                </div>
+                            </div>
+
+                            <p id="pitchResultRoi" class="text-sm text-gray-200 leading-relaxed whitespace-pre-line"></p>
+                        </div>
+                    </div>
+
+                    <!-- Lock Deal Action Button -->
+                    <div class="pt-2">
+                        <button onclick="initiateBkashEscrow()" id="lockDealBtn" class="w-full bg-gradient-to-r from-[#D12053] via-[#E2136E] to-[#F0187B] hover:brightness-110 text-white font-extrabold py-3.5 px-6 rounded-2xl transition duration-200 flex items-center justify-center gap-2.5 shadow-[0_0_25px_rgba(226,19,110,0.4)] text-sm md:text-base">
+                            <i data-lucide="lock" size="18"></i>
+                            <span id="lockDealBtnText">🔒 Lock Deal via bKash Escrow</span>
+                        </button>
+                    </div>
+
+                    <!-- Secondary Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-1">
+                        <button onclick="copyPitchToClipboard()" id="copyPitchBtn" class="flex-1 bg-gradient-to-r from-pastel-indigo to-pastel-mint text-navy-900 font-extrabold py-3 px-5 rounded-xl hover:opacity-95 transition flex items-center justify-center gap-2 shadow-lg">
+                            <i data-lucide="copy" size="16"></i>
+                            <span id="copyPitchText">Copy Proposal</span>
+                        </button>
+                        <button onclick="resetPitchModal()" class="bg-navy-800 hover:bg-navy-700 border border-white/10 text-white font-semibold py-3 px-5 rounded-xl transition flex items-center justify-center gap-2">
+                            <i data-lucide="rotate-ccw" size="16"></i>
+                            <span>New Pitch</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- bKash / MFS Escrow Payment Modal -->
+        <div id="bKashModal" onclick="if(event.target === this) closeBkashModal()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/85 backdrop-blur-md hidden transition-opacity duration-300">
+            <div class="bg-white text-gray-800 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative flex flex-col border border-pink-500/30">
+                <!-- Branded bKash Header -->
+                <div class="bg-gradient-to-r from-[#D12053] via-[#E2136E] to-[#E2136E] text-white p-6 relative">
+                    <button onclick="closeBkashModal()" class="absolute right-4 top-4 text-white/80 hover:text-white bg-black/20 hover:bg-black/30 p-2 rounded-full transition">
+                        <i data-lucide="x" size="18"></i>
+                    </button>
+                    <div class="flex items-center gap-3 mb-2">
+                        <!-- bKash Bird Icon styling -->
+                        <div class="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-md">
+                            <span class="text-[#E2136E] font-black text-xl leading-none">b</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-extrabold tracking-tight">bKash Payment Gateway</h3>
+                            <p class="text-xs text-pink-100 font-medium">Johuri.ai Secure Escrow Vault</p>
+                        </div>
+                    </div>
+                    <!-- Order Summary Pill -->
+                    <div class="mt-4 bg-black/20 rounded-2xl p-3 flex justify-between items-center text-xs backdrop-blur-sm">
+                        <div>
+                            <span class="text-pink-200 block">Merchant: Johuri Escrow</span>
+                            <span id="bkashMerchantNumDisplay" class="font-bold text-white tracking-wider">01700-JOHURI (01700-564874)</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-pink-200 block">Payable Amount</span>
+                            <span id="bkashAmountDisplay" class="font-extrabold text-base text-yellow-300">৳0 BDT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- bKash Modal Body: Step 1 Checkout Form -->
+                <div id="bkashFormView" class="p-6 space-y-4">
+                    <div class="bg-pink-50 border border-pink-200 rounded-2xl p-3.5 text-xs text-pink-900 flex items-start gap-2.5">
+                        <i data-lucide="shield-check" class="text-[#E2136E] flex-shrink-0 mt-0.5" size="16"></i>
+                        <div>
+                            <span class="font-bold">100% Escrow Protection:</span>
+                            Funds are safely locked in Johuri's vault and only released after creator delivers approved content.
+                        </div>
+                    </div>
+
+                    <form id="bkashCheckoutForm" onsubmit="handleBkashConfirm(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">bKash Account Number</label>
+                            <div class="relative">
+                                <i data-lucide="smartphone" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size="16"></i>
+                                <input type="tel" id="bkashPhoneInput" required placeholder="017XXXXXXXX" value="01712345678"
+                                       class="w-full bg-gray-50 border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#E2136E] focus:ring-1 focus:ring-[#E2136E] font-medium">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 mb-1">Verification OTP</label>
+                                <div class="relative">
+                                    <i data-lucide="key" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size="14"></i>
+                                    <input type="text" id="bkashOtpInput" required placeholder="123456" value="123456" maxlength="6"
+                                           class="w-full bg-gray-50 border border-gray-300 rounded-xl py-2.5 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#E2136E] focus:ring-1 focus:ring-[#E2136E] font-bold text-center tracking-widest">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 mb-1">bKash PIN</label>
+                                <div class="relative">
+                                    <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size="14"></i>
+                                    <input type="password" id="bkashPinInput" required placeholder="•••••" value="12345" maxlength="5"
+                                           class="w-full bg-gray-50 border border-gray-300 rounded-xl py-2.5 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#E2136E] focus:ring-1 focus:ring-[#E2136E] font-bold text-center tracking-widest">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-[11px] text-gray-400 text-center">
+                            By clicking Confirm, you authorize deposit into Johuri Escrow.
+                        </div>
+
+                        <button type="submit" id="bkashSubmitBtn" class="w-full bg-[#E2136E] hover:bg-[#D12053] text-white font-extrabold py-3.5 px-6 rounded-xl transition duration-150 flex items-center justify-center gap-2 shadow-lg shadow-pink-500/25">
+                            <i data-lucide="check-circle" size="18"></i>
+                            <span id="bkashSubmitBtnText">Confirm Deposit</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- bKash Modal: Step 2 Processing View -->
+                <div id="bkashLoadingView" class="hidden p-12 text-center flex-col items-center justify-center space-y-4">
+                    <div class="w-16 h-16 rounded-full border-4 border-pink-200 border-t-[#E2136E] animate-spin"></div>
+                    <div>
+                        <h4 class="text-base font-bold text-gray-900">Verifying bKash Transaction...</h4>
+                        <p class="text-xs text-gray-500">Securing campaign escrow on Johuri Vault</p>
+                    </div>
+                </div>
+
+                <!-- bKash Modal: Step 3 Success State View -->
+                <div id="bkashSuccessView" class="hidden p-6 text-center flex-col items-center justify-center space-y-5">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                        <i data-lucide="shield-check" size="36"></i>
+                    </div>
+                    <div>
+                        <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">
+                            ✓ Escrow Locked
+                        </span>
+                        <h3 class="text-xl font-extrabold text-gray-900">Payment Successfully Locked!</h3>
+                        <p id="bkashSuccessHighlight" class="mt-2 text-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                            ৳150,000 Securely Locked in Johuri Escrow! Campaign initialized with @creator.
+                        </p>
+                    </div>
+
+                    <!-- Deal Telemetry Mini-Card -->
+                    <div class="w-full bg-gray-50 rounded-2xl p-3.5 border border-gray-200 text-left text-xs space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Deal Reference:</span>
+                            <span id="bkashSuccessDealId" class="font-bold text-gray-800">JD-XXXX</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Transaction ID:</span>
+                            <span id="bkashSuccessTrxId" class="font-bold text-gray-800">TRX-XXXX</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Vault Status:</span>
+                            <span class="font-bold text-[#E2136E]">ESCROW_LOCKED (Guaranteed)</span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 w-full">
+                        <a href="brand-dashboard.html" class="flex-1 bg-navy-900 hover:bg-navy-800 text-white font-bold py-3 px-4 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="layout-dashboard" size="14"></i>
+                            <span>Go to Brand Dashboard</span>
+                        </a>
+                        <button onclick="closeBkashModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-xl text-xs transition">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-10 text-center text-gray-500 text-sm mt-auto bg-navy-900/80 backdrop-blur-md relative z-10">
+        <p class="font-sans">&copy; 2026 <span class="text-white font-bold">Johuri.ai</span> — <span class="font-bangla text-base">জহুরী চেনে আসল ক্রিয়েটর</span></p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function formatNumber(num) {
+            if (num === null || num === undefined) return '0';
+            num = Number(num);
+            if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            return Number(num.toFixed(2)).toString();
+        }
+
+        const fallbackData = [
+            { id: '1', youtubeHandle: '@RafsanTheChotoBhai', verificationStatus: 'UNCLAIMED', publicStats: { subscriberCount: 3500000, totalViews: 450000000, avgViews: 1200000 }, servicePackages: [] },
+            { id: '2', youtubeHandle: '@NadirOnTheGo', verificationStatus: 'VERIFIED', publicStats: { subscriberCount: 1200000, totalViews: 150000000, avgViews: 500000 }, servicePackages: [{ title: 'Dedicated Integration', priceBDT: 150000 }] },
+            { id: '3', youtubeHandle: '@EnayetChowdhury', verificationStatus: 'VERIFIED', publicStats: { subscriberCount: 2100000, totalViews: 280000000, avgViews: 850000 }, servicePackages: [{ title: '60s Shoutout', priceBDT: 80000 }] },
+            { id: '4', youtubeHandle: '@AymanSadiq', verificationStatus: 'VERIFIED', publicStats: { subscriberCount: 6500000, totalViews: 800000000, avgViews: 350000 }, servicePackages: [{ title: 'Brand Ambassador', priceBDT: 500000 }] }
+        ];
+
+        let creators = [];
+
+        async function fetchCreators() {
+            try {
+                const response = await fetch('/api/v1/creators'); 
+                if (!response.ok) throw new Error('API failed');
+                const data = await response.json();
+                creators = data.data || data.content || data || fallbackData; 
+                if(!Array.isArray(creators)) creators = fallbackData;
+            } catch (err) {
+                console.warn("Could not fetch from API, using fallback data");
+                creators = fallbackData;
+            }
+            setTimeout(() => renderGrid(creators), 400); // aesthetic loader delay
+        }
+
+        function createCard(creator) {
+            const isVerified = creator.verificationStatus === 'VERIFIED';
+            
+            // Enhanced Badges
+            const badge = isVerified 
+                ? '<div class="bg-pastel-mint/10 border border-pastel-mint/40 text-pastel-mint text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5 font-bold shadow-[0_0_12px_rgba(110,231,183,0.25)] backdrop-blur-sm"><i data-lucide="check-circle" size="14"></i> Verified</div>'
+                : '<div class="bg-gray-800/80 border border-gray-500/40 text-gray-400 text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-sm"><i data-lucide="shield-alert" size="14"></i> Unclaimed</div>';
+            
+            const stats = creator.publicStats || {};
+            const subs = formatNumber(stats.subscriberCount || 0);
+            const avgViews = formatNumber(stats.avgViews || 0);
+            
+            let packageInfo = '';
+            
+            // AI Valuation Range
+            let aiTag = '';
+            if (creator.aiEvaluation && creator.aiEvaluation.fairMarketValueMin && creator.aiEvaluation.fairMarketValueMax) {
+                const fMin = creator.aiEvaluation.fairMarketValueMin.toLocaleString();
+                const fMax = creator.aiEvaluation.fairMarketValueMax.toLocaleString();
+                aiTag = `<div class="mt-2.5 flex items-center justify-between text-[11px] bg-pastel-mint/10 border border-pastel-mint/30 px-2.5 py-1 rounded-lg">
+                    <span class="text-gray-300 font-semibold flex items-center gap-1"><i data-lucide="sparkles" size="12" class="text-pastel-mint"></i> AI Fair Range</span>
+                    <span class="text-pastel-mint font-bold font-mono">৳${fMin} – ৳${fMax}</span>
+                </div>`;
+            } else if (stats.avgViews && stats.avgViews > 0) {
+                const estMin = Math.round((stats.avgViews * 0.45) / 1000) * 1000;
+                const estMax = Math.round((stats.avgViews * 0.70) / 1000) * 1000;
+                aiTag = `<div class="mt-2.5 flex items-center justify-between text-[11px] bg-pastel-mint/10 border border-pastel-mint/30 px-2.5 py-1 rounded-lg">
+                    <span class="text-gray-300 font-semibold flex items-center gap-1"><i data-lucide="sparkles" size="12" class="text-pastel-mint"></i> AI Fair Range</span>
+                    <span class="text-pastel-mint font-bold font-mono">৳${estMin.toLocaleString()} – ৳${estMax.toLocaleString()}</span>
+                </div>`;
+            } else {
+                const subCount = stats.subscriberCount || 0;
+                const bMin = subCount > 50000 ? 15000 : 3500;
+                const bMax = subCount > 50000 ? 30000 : 6000;
+                aiTag = `<div class="mt-2.5 flex items-center justify-between text-[11px] bg-pastel-mint/10 border border-pastel-mint/30 px-2.5 py-1 rounded-lg">
+                    <span class="text-gray-300 font-semibold flex items-center gap-1"><i data-lucide="sparkles" size="12" class="text-pastel-mint"></i> AI Benchmark</span>
+                    <span class="text-pastel-mint font-bold font-mono">৳${bMin.toLocaleString()} – ৳${bMax.toLocaleString()}</span>
+                </div>`;
+            }
+
+            if (isVerified && creator.servicePackages && creator.servicePackages.length > 0) {
+                const startingPrice = Math.min(...creator.servicePackages.map(p => p.priceBDT));
+                packageInfo = `<div class="mt-4 pt-3 border-t border-white/10">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-gray-400">Rate Card:</span>
+                        <span class="text-xs font-bold text-pastel-amber drop-shadow-[0_0_5px_rgba(252,211,77,0.4)]">Starts at ৳${startingPrice.toLocaleString()}</span>
+                    </div>
+                    ${aiTag}
+                </div>`;
+            } else if (creator.rateCard && (creator.rateCard.video || creator.rateCard.shorts)) {
+                const price = creator.rateCard.video || creator.rateCard.shorts;
+                packageInfo = `<div class="mt-4 pt-3 border-t border-white/10">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-gray-400">Rate Card:</span>
+                        <span class="text-xs font-bold text-pastel-amber">৳${price.toLocaleString()}</span>
+                    </div>
+                    ${aiTag}
+                </div>`;
+            } else {
+                packageInfo = `<div class="mt-4 pt-3 border-t border-white/10">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-gray-400">Rate Card:</span>
+                        <span class="text-xs font-medium text-gray-500 italic">Self-declared pending</span>
+                    </div>
+                    ${aiTag}
+                </div>`;
+            }
+
+            return `
+                <div onclick="window.location.href='creator-profile.html?handle=${creator.youtubeHandle.substring(1)}'" class="glass-card rounded-[1.5rem] p-7 flex flex-col h-full cursor-pointer group hover:border-pastel-mint transition">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-pastel-indigo to-pastel-mint rounded-full blur opacity-50 group-hover:opacity-100 transition duration-300"></div>
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-pastel-indigo to-pastel-mint p-[2px] relative z-10 shadow-lg">
+                                <div class="bg-navy-900 w-full h-full rounded-full flex items-center justify-center font-bold text-2xl text-white shadow-inner overflow-hidden">
+                                    <img src="${creator.avatarUrl || creator.profilePic || ''}" 
+                                         onerror="this.outerHTML='<span>${creator.youtubeHandle.substring(1, 2).toUpperCase()}</span>'" 
+                                         class="w-full h-full object-cover" alt="avatar" />
+                                </div>
+                            </div>
+                        </div>
+                        ${badge}
+                    </div>
+                    
+                    <h3 class="text-xl font-bold truncate text-white group-hover:text-pastel-mint transition" title="${creator.youtubeHandle}">${creator.youtubeHandle}</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-6 bg-navy-900/50 rounded-xl p-4 border border-white/5 shadow-inner">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-pastel-indigo font-bold uppercase tracking-widest mb-1 flex items-center gap-1"><i data-lucide="users" size="12"></i> Subs</span>
+                            <span class="font-extrabold text-lg text-white">${subs}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-pastel-mint font-bold uppercase tracking-widest mb-1 flex items-center gap-1"><i data-lucide="play" size="12"></i> Avg Views</span>
+                            <span class="font-extrabold text-lg text-white">${avgViews}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        ${packageInfo}
+                        <button onclick="event.stopPropagation(); openPitchModal('${creator.youtubeHandle}')" 
+                                class="w-full mt-3.5 bg-gradient-to-r from-pastel-indigo/20 via-pastel-mint/15 to-pastel-amber/20 hover:from-pastel-indigo/35 hover:via-pastel-mint/30 hover:to-pastel-amber/35 border border-pastel-indigo/40 hover:border-pastel-mint text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition duration-200 shadow-sm hover:shadow-[0_0_15px_rgba(110,231,183,0.3)]">
+                            <i data-lucide="sparkles" class="text-pastel-amber" size="14"></i>
+                            <span>✨ Generate AI Pitch</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGrid(dataToRender) {
+            document.getElementById('loadingState').classList.add('hidden');
+            const grid = document.getElementById('creatorsGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            grid.innerHTML = '';
+            
+            if (dataToRender.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                grid.classList.remove('hidden');
+                grid.innerHTML = dataToRender.map(createCard).join('');
+                lucide.createIcons();
+            }
+        }
+
+        async function handleSearch(e) {
+            const term = e.target.value.toLowerCase().trim();
+            if (e.key === 'Enter' && term.startsWith('@')) {
+                // Trigger live sync
+                try {
+                    const btnOrInput = e.target;
+                    const originalPlaceholder = btnOrInput.placeholder;
+                    btnOrInput.value = '';
+                    btnOrInput.placeholder = 'Syncing from YouTube...';
+                    btnOrInput.disabled = true;
+                    
+                    const handleToSync = term;
+                    const response = await fetch('/api/v1/creators/sync/' + encodeURIComponent(handleToSync), {
+                        method: 'POST'
+                    });
+                    
+                    btnOrInput.disabled = false;
+                    btnOrInput.placeholder = originalPlaceholder;
+                    btnOrInput.value = term;
+                    
+                    if (response.ok) {
+                        const json = await response.json();
+                        const syncedData = json.data;
+                        
+                        // Map the DTO to UI format
+                        const newCreator = {
+                            id: syncedData.channelId || String(Date.now()),
+                            youtubeHandle: syncedData.handle || term,
+                            verificationStatus: 'UNCLAIMED',
+                            publicStats: {
+                                subscriberCount: syncedData.subscriberCount || 0,
+                                totalViews: syncedData.viewCount || 0,
+                                avgViews: syncedData.videoCount > 0 ? Math.floor(syncedData.viewCount / syncedData.videoCount) : 0
+                            }
+                        };
+                        
+                        // Check if already in array
+                        const existingIdx = creators.findIndex(c => c.youtubeHandle.toLowerCase() === newCreator.youtubeHandle.toLowerCase());
+                        if (existingIdx >= 0) {
+                            creators[existingIdx] = newCreator;
+                        } else {
+                            creators.unshift(newCreator);
+                        }
+                        
+                        renderGrid(creators);
+                    } else {
+                        const errorJson = await response.json().catch(() => ({}));
+                        const errorMessage = errorJson.message || 'Unknown error occurred';
+                        alert('Failed to load YouTube Channel: ' + errorMessage);
+                    }
+                } catch(err) {
+                    e.target.disabled = false;
+                    alert('Failed to load YouTube Channel: ' + err.message);
+                }
+            } else {
+                const filtered = creators.filter(c => c.youtubeHandle.toLowerCase().includes(term));
+                renderGrid(filtered);
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', handleSearch);
+        document.getElementById('mobileSearchInput').addEventListener('keyup', handleSearch);
+
+        // --- AI Pitch & Proposal Modal Logic ---
+        let selectedPitchHandle = null;
+        let currentFullPitchText = "";
+
+        function openPitchModal(handle) {
+            if (typeof isAuthenticated === 'function' && !isAuthenticated()) {
+                if (typeof showAuthRequiredModal === 'function') {
+                    showAuthRequiredModal("Please sign in or create an account to access the AI Pitch Generator and propose custom sponsorship deals.");
+                } else {
+                    window.location.href = `auth.html?returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+                }
+                return;
+            }
+
+            selectedPitchHandle = handle;
+            document.getElementById('pitchCreatorHandle').textContent = handle;
+            
+            // Reset to form view
+            document.getElementById('pitchFormView').classList.remove('hidden');
+            document.getElementById('pitchLoadingView').classList.add('hidden');
+            document.getElementById('pitchLoadingView').classList.remove('flex');
+            document.getElementById('pitchResultView').classList.add('hidden');
+            
+            // Show modal
+            const modal = document.getElementById('pitchModal');
+            modal.classList.remove('hidden');
+            
+            // Refresh icons
+            lucide.createIcons();
+        }
+
+        function closePitchModal() {
+            const modal = document.getElementById('pitchModal');
+            modal.classList.add('hidden');
+        }
+
+        function resetPitchModal() {
+            document.getElementById('pitchFormView').classList.remove('hidden');
+            document.getElementById('pitchLoadingView').classList.add('hidden');
+            document.getElementById('pitchLoadingView').classList.remove('flex');
+            document.getElementById('pitchResultView').classList.add('hidden');
+            lucide.createIcons();
+        }
+
+        async function handlePitchSubmit(e) {
+            e.preventDefault();
+            if (!selectedPitchHandle) return;
+
+            const brandName = document.getElementById('pitchBrandName').value.trim();
+            const category = document.getElementById('pitchCategory').value.trim();
+            const budgetVal = document.getElementById('pitchBudget').value;
+            const budgetBDT = budgetVal ? parseInt(budgetVal, 10) : null;
+            const targetAudience = document.getElementById('pitchAudience').value.trim();
+
+            // Transition to loading view
+            document.getElementById('pitchFormView').classList.add('hidden');
+            document.getElementById('pitchResultView').classList.add('hidden');
+            document.getElementById('pitchLoadingView').classList.remove('hidden');
+            document.getElementById('pitchLoadingView').classList.add('flex');
+            lucide.createIcons();
+
+            try {
+                // First attempt calling new AI Smart Pitch Engine
+                let pitch = null;
+                try {
+                    const smartResp = await fetch('/api/v1/ai/smart-pitch', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            creatorHandle: selectedPitchHandle,
+                            brandName: brandName,
+                            category: category,
+                            offeredBudgetBDT: budgetBDT || 50000,
+                            targetAudience: targetAudience
+                        })
+                    });
+                    if (smartResp.ok) {
+                        const sData = await smartResp.json();
+                        pitch = sData.data || sData;
+                    }
+                } catch (e) {
+                    console.warn("Smart pitch engine call fallback:", e);
+                }
+
+                if (!pitch) {
+                    const response = await fetch(`/api/v1/creators/${encodeURIComponent(selectedPitchHandle)}/generate-pitch`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ brandName, category, budgetBDT, targetAudience })
+                    });
+
+                    if (!response.ok) {
+                        const errJson = await response.json().catch(() => ({}));
+                        throw new Error(errJson.message || 'Failed to generate proposal');
+                    }
+
+                    const result = await response.json();
+                    pitch = result.data || result;
+                }
+
+                // Populate views with dynamic strategic metrics
+                document.getElementById('pitchResultHook').textContent = pitch.hookAndMatchRationale || 'Hook & Match rationale crafted.';
+                document.getElementById('pitchResultDeliverables').textContent = pitch.deliverablesStrategy || 'Deliverables strategy prepared.';
+                document.getElementById('pitchResultRoi').textContent = pitch.projectedRoiAndCta || 'Projected ROI and Strategic CPM established.';
+
+                const activeBudget = budgetBDT || (pitch.offeredBudgetBDT || 50000);
+                const reachEl = document.getElementById('pitchResultReach');
+                if (reachEl) {
+                    reachEl.textContent = pitch.projectedReach || `${(Math.round(activeBudget / 160)).toLocaleString()} – ${(Math.round((activeBudget / 160) * 1.5)).toLocaleString()} Impressions`;
+                }
+                const cpmEl = document.getElementById('pitchResultCPM');
+                if (cpmEl) {
+                    cpmEl.textContent = pitch.estimatedCPM || '৳140 – ৳190 BDT';
+                }
+                const budgetTagEl = document.getElementById('pitchRoiBudgetTag');
+                if (budgetTagEl) {
+                    budgetTagEl.textContent = `৳${Number(activeBudget).toLocaleString()} Allocation`;
+                }
+
+                currentFullPitchText = pitch.fullPitch || (
+                    `### 🎯 1. Hook & Match Rationale\n${pitch.hookAndMatchRationale}\n\n` +
+                    `### 📦 2. Deliverables & Creative Strategy\n${pitch.deliverablesStrategy}\n\n` +
+                    `### 📈 3. Projected ROI & Strategic CPM\n${pitch.projectedRoiAndCta}`
+                );
+
+                // Update Lock Deal button with actual budget
+                currentPitchBrand = brandName || "Brand Partner";
+                currentPitchBudget = activeBudget;
+                const lockBtnText = document.getElementById('lockDealBtnText');
+                if (lockBtnText) {
+                    lockBtnText.textContent = `🔒 Lock Deal via bKash Escrow (BDT ${activeBudget.toLocaleString()})`;
+                }
+
+                // Transition to result view
+                document.getElementById('pitchLoadingView').classList.add('hidden');
+                document.getElementById('pitchLoadingView').classList.remove('flex');
+                document.getElementById('pitchResultView').classList.remove('hidden');
+
+                const copyBtnText = document.getElementById('copyPitchText');
+                if (copyBtnText) copyBtnText.textContent = "Copy Proposal";
+
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Error generating pitch:", err);
+                alert("Could not generate AI pitch: " + err.message);
+                resetPitchModal();
+            }
+        }
+
+        async function copyPitchToClipboard() {
+            if (!currentFullPitchText) return;
+            try {
+                await navigator.clipboard.writeText(currentFullPitchText);
+                const copyBtnText = document.getElementById('copyPitchText');
+                if (copyBtnText) {
+                    const original = copyBtnText.textContent;
+                    copyBtnText.textContent = "✓ Copied!";
+                    setTimeout(() => {
+                        copyBtnText.textContent = original;
+                    }, 2500);
+                }
+            } catch (err) {
+                const tempTextArea = document.createElement("textarea");
+                tempTextArea.value = currentFullPitchText;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempTextArea);
+                const copyBtnText = document.getElementById('copyPitchText');
+                if (copyBtnText) {
+                    copyBtnText.textContent = "✓ Copied!";
+                    setTimeout(() => {
+                        copyBtnText.textContent = "Copy Proposal";
+                    }, 2500);
+                }
+            }
+        }
+
+        // --- bKash Escrow Payment Gateway Logic ---
+        let currentPitchBrand = "Partner Brand";
+        let currentPitchBudget = 120000;
+        let activeEscrowSession = null;
+
+        async function initiateBkashEscrow() {
+            const budget = currentPitchBudget || 120000;
+            const brand = currentPitchBrand || "Brand Partner";
+            const handle = selectedPitchHandle || "@creator";
+
+            try {
+                const lockBtn = document.getElementById('lockDealBtn');
+                if (lockBtn) {
+                    lockBtn.disabled = true;
+                    lockBtn.classList.add('opacity-75');
+                }
+
+                const response = await fetch('/api/v1/escrow/initiate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        brandName: brand,
+                        creatorHandle: handle,
+                        budgetBDT: budget
+                    })
+                });
+
+                if (lockBtn) {
+                    lockBtn.disabled = false;
+                    lockBtn.classList.remove('opacity-75');
+                }
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.message || 'Failed to initiate escrow session');
+                }
+
+                const result = await response.json();
+                activeEscrowSession = result.data || result;
+
+                // Populate bKash Modal
+                document.getElementById('bkashMerchantNumDisplay').textContent = activeEscrowSession.merchantNumber || '01700-JOHURI (01700-564874)';
+                document.getElementById('bkashAmountDisplay').textContent = `৳${(activeEscrowSession.amountBDT || budget).toLocaleString()} BDT`;
+                document.getElementById('bkashSubmitBtnText').textContent = `Confirm Deposit (৳${(activeEscrowSession.amountBDT || budget).toLocaleString()})`;
+
+                // Show bKash Form View, hide processing & success
+                document.getElementById('bkashFormView').classList.remove('hidden');
+                document.getElementById('bkashLoadingView').classList.add('hidden');
+                document.getElementById('bkashLoadingView').classList.remove('flex');
+                document.getElementById('bkashSuccessView').classList.add('hidden');
+                document.getElementById('bkashSuccessView').classList.remove('flex');
+
+                document.getElementById('bKashModal').classList.remove('hidden');
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Escrow initiation failed:", err);
+                alert("Could not start bKash Escrow session: " + err.message);
+            }
+        }
+
+        function closeBkashModal() {
+            document.getElementById('bKashModal').classList.add('hidden');
+        }
+
+        async function handleBkashConfirm(e) {
+            e.preventDefault();
+            if (!activeEscrowSession || !activeEscrowSession.dealId) {
+                alert("No active escrow session found.");
+                return;
+            }
+
+            const otp = document.getElementById('bkashOtpInput').value.trim();
+            const pin = document.getElementById('bkashPinInput').value.trim();
+
+            // Transition to loading view
+            document.getElementById('bkashFormView').classList.add('hidden');
+            document.getElementById('bkashSuccessView').classList.add('hidden');
+            document.getElementById('bkashLoadingView').classList.remove('hidden');
+            document.getElementById('bkashLoadingView').classList.add('flex');
+            lucide.createIcons();
+
+            try {
+                const response = await fetch('/api/v1/escrow/confirm-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        dealId: activeEscrowSession.dealId,
+                        bkashSessionId: activeEscrowSession.bkashSessionId,
+                        otp: otp,
+                        pin: pin
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.message || 'Payment verification failed');
+                }
+
+                const result = await response.json();
+                const confirmData = result.data || result;
+
+                // Render High-Converting Success State
+                const formattedAmount = (confirmData.amountBDT || activeEscrowSession.amountBDT).toLocaleString();
+                document.getElementById('bkashSuccessHighlight').textContent = 
+                    `৳${formattedAmount} Securely Locked in Johuri Escrow! Campaign initialized with ${confirmData.creatorHandle || selectedPitchHandle}.`;
+                document.getElementById('bkashSuccessDealId').textContent = confirmData.dealId || activeEscrowSession.dealId;
+                document.getElementById('bkashSuccessTrxId').textContent = confirmData.transactionId || 'TRX-SUCCESS';
+
+                document.getElementById('bkashLoadingView').classList.add('hidden');
+                document.getElementById('bkashLoadingView').classList.remove('flex');
+                document.getElementById('bkashSuccessView').classList.remove('hidden');
+                document.getElementById('bkashSuccessView').classList.add('flex');
+
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Payment confirmation failed:", err);
+                alert("bKash payment failed: " + err.message);
+                document.getElementById('bkashLoadingView').classList.add('hidden');
+                document.getElementById('bkashLoadingView').classList.remove('flex');
+                document.getElementById('bkashFormView').classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+
+        // Init
+        fetchCreators();
+    </script>
+<script src="auth.js"></script></body>
+</html>

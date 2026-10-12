@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Dashboard - Johuri.ai</title>
+    <script src="auth-guard.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#1E293B', 900: '#0F172A' },
+                        pastel: { indigo: '#818CF8', mint: '#6EE7B7', amber: '#FCD34D' }
+                    },
+                    fontFamily: {
+                        bangla: ['"Hind Siliguri"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(129, 140, 248, 0.2); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+        .glass-card:hover { border-color: rgba(110, 231, 183, 0.6); box-shadow: 0 0 25px rgba(110, 231, 183, 0.2); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8, #6EE7B7, #FCD34D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blob-bg { position: fixed; top: 10%; right: -10%; width: 50vw; height: 50vh; background: rgba(110, 231, 183, 0.1); filter: blur(150px); border-radius: 50%; z-index: -1; pointer-events: none; }
+        .blob-bg-2 { position: fixed; bottom: -10%; left: -10%; width: 40vw; height: 40vh; background: rgba(129, 140, 248, 0.08); filter: blur(120px); border-radius: 50%; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+    
+    <div class="blob-bg"></div>
+    <div class="blob-bg-2"></div>
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 w-full z-50 glass-nav py-4">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-4 group">
+                <svg viewBox="0 0 48 48" class="w-10 h-10 group-hover:scale-105 transition transform" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradientNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(24, 24) rotate(-15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#6EE7B7" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="4" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#FCD34D" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradientNav)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+                <div class="flex items-center gap-2">
+                    <span class="font-bangla font-bold text-2xl tracking-wide gradient-text leading-none mt-1">জহুরী</span>
+                    <span class="font-sans text-xl font-bold text-white leading-none mt-1">Johuri.ai</span>
+                </div>
+            </a>
+            <div class="hidden md:flex gap-6 items-center font-semibold text-sm relative z-20">
+                <a href="creators.html" class="hover:text-pastel-mint transition">Marketplace</a>
+                <a href="brand-dashboard.html" class="hover:text-pastel-indigo transition">Brand Dashboard</a>
+                <div class="flex items-center gap-2 bg-navy-800 border border-pastel-mint/30 px-4 py-2 rounded-full cursor-pointer hover:border-pastel-mint transition">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=TechReviewBD" class="w-8 h-8 rounded-full bg-white/10" alt="Avatar">
+                    <span>My Studio</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 py-10 w-full relative z-10">
+        <div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end">
+            <div>
+                <h1 class="text-3xl font-extrabold mb-2">Creator <span class="gradient-text">Studio</span></h1>
+                <p class="text-gray-400">Track your earnings and manage incoming brand sponsorships.</p>
+            </div>
+            <a id="viewMediaKitBtn" href="creator-profile.html" class="mt-4 md:mt-0 flex items-center gap-2 text-pastel-mint hover:text-white transition font-semibold">
+                <i data-lucide="eye" size="18"></i> View Public Media Kit
+            </a>
+        </div>
+
+        <!-- Earnings Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="trending-up" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Total Disbursed Revenue</h3>
+                <div id="statDisbursedRevenue" class="text-3xl font-bold text-pastel-mint">৳ 0</div>
+                <p id="statDisbursedCount" class="text-xs text-gray-500 mt-2">0 completed payouts</p>
+            </div>
+            
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1 border-pastel-amber/30">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="lock" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Locked Escrow Funds</h3>
+                <div id="statLockedEscrow" class="text-3xl font-bold text-pastel-amber">৳ 0</div>
+                <p id="statLockedCount" class="text-xs text-pastel-amber mt-2">Secured in bKash Escrow</p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="award" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Active Sponsorship Deals</h3>
+                <div id="statActiveDeals" class="text-3xl font-bold text-white">0</div>
+                <p id="statActiveSubtext" class="text-xs text-gray-500 mt-2">Awaiting deliverable submission</p>
+            </div>
+        </div>
+
+        <!-- Active Deals & Sponsorships -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="briefcase" class="text-pastel-indigo"></i> My Sponsorship Deals & Deliverables</h2>
+            <div id="creatorBadgeIndicator" class="text-sm font-semibold text-pastel-mint bg-navy-800 border border-pastel-mint/30 px-3 py-1 rounded-full">
+                All Creator Deals
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="offersGrid">
+            <!-- Populated by JS -->
+            <div class="col-span-1 lg:col-span-2 text-center py-12 text-gray-400">
+                <i data-lucide="loader-2" class="animate-spin inline-block mr-2" size="32"></i> Loading deals...
+            </div>
+        </div>
+    </main>
+
+    <!-- Proof Submission Modal -->
+    <div id="proofModal" class="fixed inset-0 bg-navy-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card bg-navy-800 border border-pastel-indigo/40 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeProofModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-2 text-pastel-indigo mb-2">
+                <i data-lucide="link-2" class="w-5 h-5"></i>
+                <h3 class="text-lg font-bold text-white">Submit Deliverable Proof</h3>
+            </div>
+            <p class="text-xs text-gray-400 mb-4">Paste the published YouTube Video, Shorts, or Community Post link for verification.</p>
+            
+            <input type="hidden" id="modalDealId">
+            <div class="mb-4">
+                <label class="block text-xs uppercase text-gray-400 font-semibold mb-1">Deal Reference</label>
+                <div id="modalDealIdDisplay" class="font-mono text-sm text-pastel-mint font-bold"></div>
+            </div>
+            <div class="mb-5">
+                <label class="block text-xs uppercase text-gray-400 font-semibold mb-1">Live Content URL</label>
+                <input type="url" id="proofLinkInput" placeholder="https://youtube.com/watch?v=..." class="w-full bg-navy-900 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-pastel-mint">
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="closeProofModal()" class="flex-1 bg-white/5 hover:bg-white/10 text-gray-300 py-2.5 rounded-xl font-semibold text-sm transition">Cancel</button>
+                <button onclick="submitProofAction()" class="flex-1 bg-pastel-mint text-navy-900 py-2.5 rounded-xl font-bold text-sm hover:shadow-[0_0_15px_rgba(110,231,183,0.5)] transition flex items-center justify-center gap-1">
+                    <i data-lucide="send" class="w-4 h-4"></i> Submit Proof
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let activeCreatorHandle = null;
+
+        function getActiveCreatorHandle() {
+            try {
+                const userStr = localStorage.getItem('johuri_user');
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    if (user.role === 'CREATOR') {
+                        const handle = user.creatorHandle || user.youtubeHandle || user.name;
+                        if (handle) {
+                            return handle.startsWith('@') ? handle : '@' + handle;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not parse user from localStorage', e);
+            }
+            return null;
+        }
+
+        function updateMediaKitLink(handle) {
+            const btn = document.getElementById('viewMediaKitBtn');
+            if (!btn) return;
+            const targetHandle = handle ? handle.replace('@', '').trim() : 'EnayetChowdhury';
+            btn.href = `creator-profile.html?handle=${encodeURIComponent(targetHandle)}`;
+        }
+
+        async function fetchOffers() {
+            activeCreatorHandle = getActiveCreatorHandle();
+            const badge = document.getElementById('creatorBadgeIndicator');
+            if (activeCreatorHandle && badge) {
+                badge.textContent = `Creator: ${activeCreatorHandle}`;
+            }
+            updateMediaKitLink(activeCreatorHandle);
+
+            const grid = document.getElementById('offersGrid');
+            try {
+                let url = '/api/v1/escrow/deals';
+                if (activeCreatorHandle) {
+                    url += `?creatorHandle=${encodeURIComponent(activeCreatorHandle)}`;
+                }
+
+                const response = await fetch(url);
+                if (response.ok) {
+                    const result = await response.json();
+                    let deals = result.data || [];
+                    
+                    // If creator filter returned 0 deals, fallback to loading all deals so demo experience isn't empty
+                    if (deals.length === 0 && activeCreatorHandle) {
+                        const fallbackRes = await fetch('/api/v1/escrow/deals');
+                        if (fallbackRes.ok) {
+                            const fallbackData = await fallbackRes.json();
+                            deals = fallbackData.data || [];
+                        }
+                    }
+
+                    // If still no activeCreatorHandle, default to the first deal's creator handle
+                    if (!activeCreatorHandle && deals.length > 0 && deals[0].creatorHandle) {
+                        updateMediaKitLink(deals[0].creatorHandle);
+                    }
+
+                    renderDeals(deals);
+                    updateStats(deals);
+                } else {
+                    grid.innerHTML = `<div class="col-span-2 text-center py-12 text-red-400">Failed to load deals.</div>`;
+                }
+            } catch (error) {
+                console.error('Error fetching creator deals:', error);
+                grid.innerHTML = `<div class="col-span-2 text-center py-12 text-red-400">Network error fetching deals.</div>`;
+            }
+        }
+
+        function updateStats(deals) {
+            const completed = deals.filter(d => d.status === 'COMPLETED');
+            const locked = deals.filter(d => d.status === 'ESCROW_LOCKED');
+
+            const disbursedTotal = completed.reduce((acc, d) => acc + (d.budgetBDT || 0), 0);
+            const lockedTotal = locked.reduce((acc, d) => acc + (d.budgetBDT || 0), 0);
+
+            document.getElementById('statDisbursedRevenue').textContent = `৳ ${disbursedTotal.toLocaleString('en-US')}`;
+            document.getElementById('statDisbursedCount').textContent = `${completed.length} completed payouts`;
+
+            document.getElementById('statLockedEscrow').textContent = `৳ ${lockedTotal.toLocaleString('en-US')}`;
+            document.getElementById('statLockedCount').textContent = `${locked.length} secured in bKash Escrow`;
+
+            document.getElementById('statActiveDeals').textContent = locked.length;
+        }
+
+        function renderDeals(deals) {
+            const grid = document.getElementById('offersGrid');
+            grid.innerHTML = '';
+
+            if (!deals || deals.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-2 text-center py-12 text-gray-400 bg-navy-800/50 rounded-2xl border border-white/5">
+                        <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+                        No campaign sponsorships currently active. Explore the <a href="creators.html" class="text-pastel-mint underline">Marketplace</a>.
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            deals.forEach(deal => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl p-6 relative flex flex-col justify-between';
+
+                const formattedRate = (deal.budgetBDT || 0).toLocaleString('en-US');
+                const deliverable = deal.deliverableType || 'Integrated YouTube Video';
+                const creatorHandle = deal.creatorHandle || 'Creator';
+                const brand = deal.brandName || 'Partner Brand';
+
+                let statusBadge = '';
+                let payoutStatus = '';
+                let actionHTML = '';
+
+                if (deal.status === 'ESCROW_LOCKED') {
+                    statusBadge = `<div class="bg-pastel-indigo/20 text-pastel-indigo border border-pastel-indigo/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">🔒 Escrow Locked</div>`;
+                    payoutStatus = `<span class="text-xs text-pastel-amber flex items-center gap-1"><i data-lucide="shield-check" size="14"></i> ৳${formattedRate} Guaranteed in Escrow</span>`;
+                    
+                    if (deal.proofLink) {
+                        actionHTML = `
+                            <div class="bg-navy-900/60 p-3 rounded-xl border border-pastel-mint/30 flex items-center justify-between">
+                                <span class="text-xs text-pastel-mint font-semibold truncate max-w-[200px]"><i data-lucide="check" class="inline w-3.5 h-3.5 mr-1"></i> Proof Submitted: <a href="${deal.proofLink}" target="_blank" class="underline">${deal.proofLink}</a></span>
+                                <button onclick="openProofModal('${deal.dealId}', '${deal.proofLink}')" class="text-xs text-pastel-indigo hover:text-white font-bold ml-2">Update</button>
+                            </div>
+                        `;
+                    } else {
+                        actionHTML = `
+                            <button onclick="openProofModal('${deal.dealId}', '')" class="w-full bg-gradient-to-r from-pastel-indigo to-pastel-mint text-navy-900 py-2.5 rounded-full font-bold hover:shadow-[0_0_15px_rgba(110,231,183,0.4)] transition flex items-center justify-center gap-2">
+                                <i data-lucide="upload" size="16"></i> Submit Deliverable Proof
+                            </button>
+                        `;
+                    }
+                } else if (deal.status === 'COMPLETED') {
+                    statusBadge = `<div class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">✓ Payout Disbursed</div>`;
+                    payoutStatus = `<span class="text-xs text-emerald-400 flex items-center gap-1"><i data-lucide="check-circle" size="14"></i> Funds Released to Creator MFS</span>`;
+                    actionHTML = `
+                        <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-center">
+                            <span class="text-xs text-emerald-300 font-semibold">Deal successfully delivered and compensated!</span>
+                        </div>
+                    `;
+                } else if (deal.status === 'PENDING') {
+                    statusBadge = `<div class="bg-pastel-amber/20 text-pastel-amber border border-pastel-amber/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Awaiting Brand Escrow</div>`;
+                    payoutStatus = `<span class="text-xs text-gray-400">Awaiting brand funding confirmation</span>`;
+                    actionHTML = `
+                        <div class="bg-navy-900/40 p-3 rounded-xl text-center text-xs text-gray-400">
+                            Proposal accepted. Brand will lock funds via bKash.
+                        </div>
+                    `;
+                } else {
+                    statusBadge = `<div class="bg-gray-600/20 text-gray-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">${deal.status}</div>`;
+                    payoutStatus = `<span class="text-xs text-gray-400">-</span>`;
+                    actionHTML = '';
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-0.5">${brand}</h3>
+                                <p class="text-xs font-mono text-gray-400">${deal.dealId || ''}</p>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        <p class="text-pastel-mint font-semibold text-sm mb-4">${deliverable} &bull; <a href="creator-profile.html?handle=${encodeURIComponent(creatorHandle.replace('@', ''))}" target="_blank" class="text-gray-300 hover:text-pastel-mint hover:underline transition inline-flex items-center gap-1">${creatorHandle} <i data-lucide="external-link" size="12" class="opacity-60"></i></a></p>
+                        
+                        <div class="bg-navy-900/50 p-4 rounded-xl border border-white/5 mb-5">
+                            <div class="flex justify-between items-center text-xs text-gray-400 mb-1">
+                                <span>Deal Created</span>
+                                <span>${deal.createdAt ? new Date(deal.createdAt).toLocaleDateString() : 'Recent'}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs text-gray-400">
+                                <span>Transaction ID</span>
+                                <span class="font-mono text-pastel-indigo font-bold">${deal.transactionId || 'Awaiting Lock'}</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Payout Amount</p>
+                            <div class="text-2xl font-bold font-mono text-white mb-1">৳ ${formattedRate}</div>
+                            ${payoutStatus}
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        ${actionHTML}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function openProofModal(dealId, existingLink) {
+            document.getElementById('modalDealId').value = dealId;
+            document.getElementById('modalDealIdDisplay').textContent = dealId;
+            document.getElementById('proofLinkInput').value = existingLink || '';
+            document.getElementById('proofModal').classList.remove('hidden');
+        }
+
+        function closeProofModal() {
+            document.getElementById('proofModal').classList.add('hidden');
+        }
+
+        async function submitProofAction() {
+            const dealId = document.getElementById('modalDealId').value;
+            const proofLink = document.getElementById('proofLinkInput').value.trim();
+
+            if (!proofLink) {
+                alert('Please enter a valid live deliverable link.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/escrow/submit-proof', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        dealId: dealId,
+                        proofLink: proofLink
+                    })
+                });
+
+                if (response.ok) {
+                    alert('✓ Deliverable proof submitted successfully! Brand has been notified to release escrow funds.');
+                    closeProofModal();
+                    await fetchOffers(); // Refresh UI
+                } else {
+                    const err = await response.json();
+                    alert('Failed to submit proof: ' + (err.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error submitting proof:', error);
+                alert('Network error submitting proof.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchOffers);
+    </script>
+<script src="auth.js"></script></body>
+</html>
+

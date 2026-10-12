@@ -1,10 +1,11 @@
 package com.example.johuri.controller;
 
-import com.example.johuri.DTO.AIEmailEvaluationRequest;
+import com.example.johuri.DTO.AIRateEvaluationRequest;
+import com.example.johuri.DTO.AIRateEvaluationResponse;
+import com.example.johuri.DTO.AISmartPitchRequest;
+import com.example.johuri.DTO.AISmartPitchResponse;
 import com.example.johuri.DTO.ApiResponse;
-import com.example.johuri.DTO.GeminiAIResponse;
-import com.example.johuri.entity.CreatorProfile;
-import com.example.johuri.service.GeminiAIService;
+import com.example.johuri.service.AIService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/ai")
 public class AIController {
 
-    private final GeminiAIService geminiAIService;
+    private final AIService aiService;
 
     @PostMapping("/evaluate-rate")
-    public ResponseEntity<ApiResponse<GeminiAIResponse>> evaluateRate(
-            @Valid @RequestBody AIEmailEvaluationRequest request) {
-        AIEmailEvaluationRequest.CreatorMetrics metrics = request.getCreatorMetrics();
-        CreatorProfile.PublicStats creatorStats = CreatorProfile.PublicStats.builder()
-                .subscriberCount(metrics.getSubscriberCount())
-                .avgViews(metrics.getAvgViews())
-                .build();
-
+    public ResponseEntity<ApiResponse<AIRateEvaluationResponse>> evaluateRate(
+            @Valid @RequestBody AIRateEvaluationRequest request) {
         return ResponseEntity.ok(ApiResponse.success(
-                "Sponsorship rate evaluated",
-                geminiAIService.analyzeBrandEmail(request.getBrandEmailBody(), creatorStats)
+                "Creator performance and dynamic rate evaluation completed successfully",
+                aiService.evaluateRate(request)
+        ));
+    }
+
+    @PostMapping("/smart-pitch")
+    public ResponseEntity<ApiResponse<AISmartPitchResponse>> generateSmartPitch(
+            @Valid @RequestBody AISmartPitchRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Strategic data-backed pitch proposal generated successfully",
+                aiService.generateSmartPitch(request)
         ));
     }
 }

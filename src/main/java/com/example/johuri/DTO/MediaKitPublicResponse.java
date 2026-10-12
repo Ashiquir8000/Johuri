@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import com.example.johuri.entity.CreatorProfile;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,9 @@ public class MediaKitPublicResponse {
     private String name;
     private String youtubeHandle;
     private String verificationStatus;
+    private String avatarUrl;
+    private java.util.Map<String, Long> rateCard;
+    private CreatorProfile.AIEvaluation aiEvaluation;
 
     @Valid
     private PublicStatsResponse publicStats;
@@ -33,6 +37,8 @@ public class MediaKitPublicResponse {
         private Long totalViews;
         private Long totalVideos;
         private Double avgViews;
+        private Double engagementRate;
+        private Double audienceSentimentScore;
     }
 
     @Data

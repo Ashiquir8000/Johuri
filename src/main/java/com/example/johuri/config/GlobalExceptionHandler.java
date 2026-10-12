@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.LinkedHashMap;
@@ -57,6 +58,12 @@ public class GlobalExceptionHandler {
         HttpStatusCode status = exception.getStatusCode();
         String message = exception.getReason() == null ? "Request failed" : exception.getReason();
         return errorResponse(status, message, Map.of());
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleNoResourceFound(
+            NoResourceFoundException exception) {
+        return errorResponse(HttpStatus.NOT_FOUND, "Resource not found", Map.of());
     }
 
     @ExceptionHandler(Exception.class)

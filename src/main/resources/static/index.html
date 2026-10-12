@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johuri.ai - জহুরী চেনে আসল ক্রিয়েটর</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#1E293B', 900: '#0F172A' },
+                        pastel: { indigo: '#818CF8', mint: '#6EE7B7', amber: '#FCD34D' }
+                    },
+                    fontFamily: {
+                        bangla: ['"Hind Siliguri"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(129, 140, 248, 0.3); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(110, 231, 183, 0.6); box-shadow: 0 0 20px rgba(110, 231, 183, 0.15); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8, #6EE7B7, #FCD34D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .blob-1 { position: absolute; top: 10%; left: 20%; width: 300px; height: 300px; background: rgba(129, 140, 248, 0.2); filter: blur(90px); border-radius: 50%; z-index: 0; pointer-events: none; }
+        .blob-2 { position: absolute; bottom: 10%; right: 15%; width: 400px; height: 400px; background: rgba(110, 231, 183, 0.15); filter: blur(100px); border-radius: 50%; z-index: 0; pointer-events: none; }
+        .blob-3 { position: absolute; top: 40%; left: 50%; width: 250px; height: 250px; transform: translate(-50%, -50%); background: rgba(252, 211, 77, 0.1); filter: blur(80px); border-radius: 50%; z-index: 0; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-navy-900 text-white font-sans antialiased relative">
+    
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-nav py-4">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-4 cursor-pointer group" onclick="window.location.href='index.html'">
+                <!-- Re-usable Brand Logo (Nav) -->
+                <svg viewBox="0 0 48 48" class="w-10 h-10 group-hover:scale-105 transition transform" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradientNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Base Layer: 3 Banknotes -->
+                    <g transform="translate(24, 24) rotate(-15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#6EE7B7" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="4" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#FCD34D" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                    </g>
+                    <!-- Top Layer: Thumbs Up -->
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradientNav)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+                <div class="flex items-center gap-2">
+                    <span class="font-bangla font-bold text-2xl tracking-wide gradient-text leading-none mt-1">জহুরী</span>
+                    <span class="font-sans text-xl font-bold text-white leading-none mt-1">Johuri.ai</span>
+                </div>
+            </div>
+            <div class="hidden md:flex gap-6 items-center font-semibold text-sm relative z-20">
+                <a href="creators.html" class="hover:text-pastel-mint transition">Marketplace</a>
+                <a href="brand-dashboard.html" class="hover:text-pastel-indigo transition">Brand Dashboard</a>
+                <a href="creator-dashboard.html" class="hover:text-pastel-amber transition">Creator Dashboard</a>
+                <button class="bg-gradient-to-r from-pastel-indigo to-pastel-mint text-navy-900 px-6 py-2.5 rounded-full font-bold hover:shadow-[0_0_20px_rgba(110,231,183,0.5)] transition transform hover:scale-105">Login / Claim</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-28 px-4 relative overflow-hidden min-h-screen flex items-center">
+        <!-- Ambient Blobs for Depth -->
+        <div class="blob-1"></div>
+        <div class="blob-2"></div>
+        <div class="blob-3"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10 flex flex-col items-center">
+            
+            <!-- Hero Brand Logo Icon Badge -->
+            <div class="mb-8">
+                <svg viewBox="0 0 48 48" class="w-20 h-20 drop-shadow-[0_0_30px_rgba(129,140,248,0.5)] hover:scale-105 transition transform" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradientHero" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Base Layer: 3 Banknotes -->
+                    <g transform="translate(24, 24) rotate(-15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#6EE7B7" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="4" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#FCD34D" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                    </g>
+                    <!-- Top Layer: Thumbs Up -->
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradientHero)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Fixed Hierarchy -->
+            <h1 class="font-sans font-extrabold text-6xl md:text-8xl mb-6 tracking-tight gradient-text drop-shadow-lg flex items-center justify-center gap-4">
+                Johuri.ai
+            </h1>
+            <h2 class="font-bangla text-3xl md:text-4xl text-white font-bold mb-8 drop-shadow-md">
+                জহুরী চেনে আসল ক্রিয়েটর
+            </h2>
+            <p class="text-xl text-gray-300 font-sans mb-12 max-w-2xl leading-relaxed">
+                The intelligent AI-powered enterprise platform that evaluates talented content creators as digital assets, automates financial valuation, and bridges brand sponsorships.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-lg">
+                <a href="creators.html" class="flex-1 bg-gradient-to-r from-pastel-indigo to-pastel-mint text-navy-900 py-4 rounded-full font-bold text-lg hover:shadow-[0_0_25px_rgba(110,231,183,0.6)] transition flex items-center justify-center gap-3">
+                    <i data-lucide="search" size="20"></i> Find Creators
+                </a>
+                <button class="flex-1 glass-card py-4 rounded-full font-bold text-lg text-white flex items-center justify-center gap-3 hover:text-pastel-amber hover:border-pastel-amber">
+                    <i data-lucide="youtube" size="20"></i> Claim Profile
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="py-24 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-3xl md:text-4xl font-bold text-center mb-16"><span class="gradient-text">Platform</span> Capabilities</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card p-10 rounded-3xl relative overflow-hidden group border-pastel-indigo/30">
+                    <div class="absolute inset-0 bg-pastel-indigo opacity-0 group-hover:opacity-5 transition duration-300"></div>
+                    <div class="bg-pastel-indigo/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 border border-pastel-indigo/40 shadow-[0_0_15px_rgba(129,140,248,0.2)]">
+                        <i data-lucide="bar-chart-2" class="text-pastel-indigo" size="32"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-white group-hover:text-pastel-indigo transition">Live YouTube Analytics</h4>
+                    <p class="text-gray-400 leading-relaxed">Authenticated telemetry pulling real-time stats securely via OAuth 2.0. Never rely on screenshots again.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="glass-card p-10 rounded-3xl relative overflow-hidden group border-pastel-amber/30">
+                    <div class="absolute inset-0 bg-pastel-amber opacity-0 group-hover:opacity-5 transition duration-300"></div>
+                    <div class="bg-pastel-amber/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 border border-pastel-amber/40 shadow-[0_0_15px_rgba(252,211,77,0.2)]">
+                        <i data-lucide="bot" class="text-pastel-amber" size="32"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-white group-hover:text-pastel-amber transition">AI Sponsorship Engine</h4>
+                    <p class="text-gray-400 leading-relaxed">Evaluate brand emails and auto-generate counter-proposals with fair market rates using our Gemini AI integration.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="glass-card p-10 rounded-3xl relative overflow-hidden group border-pastel-mint/30">
+                    <div class="absolute inset-0 bg-pastel-mint opacity-0 group-hover:opacity-5 transition duration-300"></div>
+                    <div class="bg-pastel-mint/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 border border-pastel-mint/40 shadow-[0_0_15px_rgba(110,231,183,0.2)]">
+                        <i data-lucide="credit-card" class="text-pastel-mint" size="32"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 text-white group-hover:text-pastel-mint transition">Automated Billing</h4>
+                    <p class="text-gray-400 leading-relaxed">Drag-and-drop Kanban CRM integrated with automated bKash sandbox invoices and digital asset storefront.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 px-4 relative z-10">
+        <div class="max-w-5xl mx-auto glass-card rounded-[3rem] p-16 text-center relative overflow-hidden border-pastel-indigo/40 shadow-[0_0_50px_rgba(129,140,248,0.1)]">
+            <div class="absolute -top-32 -right-32 w-64 h-64 bg-pastel-indigo rounded-full blur-[100px] opacity-40"></div>
+            <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-pastel-mint rounded-full blur-[100px] opacity-40"></div>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-6 relative z-10 text-white">Ready to discover Gems?</h2>
+            <p class="text-xl text-gray-300 mb-10 relative z-10 max-w-2xl mx-auto">Browse our verified creator marketplace and connect directly with top Bangladeshi talent.</p>
+            <a href="creators.html" class="inline-flex items-center gap-3 bg-white text-navy-900 px-10 py-5 rounded-full font-bold text-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition transform relative z-10">
+                Explore Marketplace <i data-lucide="arrow-right" size="24"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/10 py-10 text-center text-gray-500 text-sm mt-12 bg-navy-900 relative z-10">
+        <p class="font-sans">&copy; 2026 <span class="text-white font-bold">Johuri.ai</span> — <span class="font-bangla text-base">জহুরী চেনে আসল ক্রিয়েটর</span></p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+<script src="auth.js"></script></body>
+</html>

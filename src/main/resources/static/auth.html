@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johuri.ai - Sign In & Creator Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#1E293B', 900: '#0F172A' },
+                        pastel: { indigo: '#818CF8', mint: '#6EE7B7', amber: '#FCD34D' }
+                    },
+                    fontFamily: {
+                        bangla: ['"Hind Siliguri"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card { background: rgba(30, 41, 59, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(129, 140, 248, 0.2); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8, #6EE7B7, #FCD34D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blob-bg { position: fixed; top: 10%; left: 10%; width: 50vw; height: 50vh; background: rgba(129, 140, 248, 0.15); filter: blur(150px); border-radius: 50%; z-index: -1; pointer-events: none; }
+        .blob-bg-2 { position: fixed; bottom: 10%; right: 10%; width: 40vw; height: 40vh; background: rgba(110, 231, 183, 0.12); filter: blur(120px); border-radius: 50%; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+    
+    <div class="blob-bg"></div>
+    <div class="blob-bg-2"></div>
+
+    <div class="glass-card w-full max-w-xl rounded-3xl p-6 sm:p-10 relative z-10 my-8">
+        <!-- Logo & Brand Header -->
+        <div class="flex flex-col items-center mb-6 text-center">
+            <a href="index.html" class="flex flex-col items-center group">
+                <svg viewBox="0 0 48 48" class="w-14 h-14 group-hover:scale-105 transition transform mb-2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradAuth" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(24, 24) rotate(-15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#6EE7B7" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="4" stroke="#6EE7B7" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#FCD34D" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#FCD34D" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradAuth)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+                <div class="flex items-center gap-2">
+                    <span class="font-bangla font-bold text-3xl tracking-wide gradient-text leading-none mt-1">জহুরী</span>
+                </div>
+                <p id="pageSubtitle" class="text-xs sm:text-sm text-gray-400 mt-1">Smart Sponsorships & AI Escrow Gateway</p>
+            </a>
+        </div>
+
+        <!-- Mode Switch: Sign In vs Register -->
+        <div class="flex bg-navy-800/90 rounded-2xl p-1 mb-6 border border-white/5 shadow-inner">
+            <button id="mode-login" onclick="switchMode('login')" class="flex-1 py-2.5 text-sm font-bold rounded-xl transition bg-pastel-indigo text-navy-900 shadow-md flex items-center justify-center gap-2">
+                <i data-lucide="log-in" size="16"></i> Sign In
+            </button>
+            <button id="mode-register" onclick="switchMode('register')" class="flex-1 py-2.5 text-sm font-bold rounded-xl transition text-gray-400 hover:text-white flex items-center justify-center gap-2">
+                <i data-lucide="user-plus" size="16"></i> Create Account
+            </button>
+        </div>
+
+        <!-- Role Selector Tab -->
+        <div class="mb-6">
+            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Select Account Role</label>
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" id="role-brand" onclick="selectRole('BRAND')" class="flex items-center gap-3 p-3.5 rounded-2xl border border-white/10 bg-navy-800/60 hover:border-pastel-mint transition text-left">
+                    <div id="role-brand-icon" class="w-10 h-10 rounded-xl bg-navy-900 flex items-center justify-center text-gray-400 border border-white/5">
+                        <i data-lucide="briefcase" size="20"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-white">Brand / Sponsor</div>
+                        <div class="text-[11px] text-gray-400">Lock escrow & hire talent</div>
+                    </div>
+                </button>
+                <button type="button" id="role-creator" onclick="selectRole('CREATOR')" class="flex items-center gap-3 p-3.5 rounded-2xl border-2 border-pastel-indigo bg-pastel-indigo/10 transition text-left">
+                    <div id="role-creator-icon" class="w-10 h-10 rounded-xl bg-pastel-indigo text-navy-900 flex items-center justify-center font-bold">
+                        <i data-lucide="youtube" size="20"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-white">Content Creator</div>
+                        <div class="text-[11px] text-gray-400">Monetize & get guaranteed pay</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Alert Banner -->
+        <div id="alertBox" class="hidden mb-5 p-3.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2.5">
+            <i id="alertIcon" data-lucide="alert-circle" size="18"></i>
+            <span id="alertMsg"></span>
+        </div>
+
+        <!-- Dynamic Auth Form -->
+        <form id="authForm" onsubmit="handleSubmit(event)" class="space-y-4">
+            
+            <!-- Full Name (Only in Register mode) -->
+            <div id="nameFieldGroup" class="hidden">
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Full Name / Brand Name</label>
+                <div class="relative">
+                    <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size="18"></i>
+                    <input type="text" id="fullName" placeholder="e.g. Rafsan Sabab or Apex Footwear" class="w-full bg-navy-800 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-pastel-indigo focus:ring-1 focus:ring-pastel-indigo transition">
+                </div>
+            </div>
+
+            <!-- Email Address -->
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Email Address</label>
+                <div class="relative">
+                    <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size="18"></i>
+                    <input type="email" id="email" required placeholder="name@company.com" class="w-full bg-navy-800 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-pastel-indigo focus:ring-1 focus:ring-pastel-indigo transition">
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+                <div class="flex justify-between items-center mb-1.5">
+                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Password</label>
+                    <span id="forgotPwdLink" class="text-xs text-pastel-mint cursor-pointer hover:underline">Forgot?</span>
+                </div>
+                <div class="relative">
+                    <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size="18"></i>
+                    <input type="password" id="password" required placeholder="••••••••" class="w-full bg-navy-800 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-pastel-indigo focus:ring-1 focus:ring-pastel-indigo transition">
+                </div>
+            </div>
+
+            <!-- Creator Specific Fields (YouTube Handle + Rate Card) -->
+            <div id="creatorOnboardingSection" class="hidden space-y-4 pt-2 border-t border-white/10">
+                <div>
+                    <label class="block text-xs font-semibold text-pastel-mint uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <i data-lucide="at-sign" size="14"></i> YouTube Channel Handle
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-pastel-indigo font-bold">@</span>
+                        <input type="text" id="youtubeHandle" placeholder="RafsanTheChotoBhai" class="w-full bg-navy-800 border border-pastel-indigo/40 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-pastel-mint focus:ring-1 focus:ring-pastel-mint transition">
+                    </div>
+                    <p class="text-[11px] text-gray-400 mt-1">Used to auto-sync your channel stats and lock escrow deals.</p>
+                </div>
+
+                <!-- Rate Card Pricing -->
+                <div class="bg-navy-900/80 p-4 rounded-2xl border border-white/5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="tag" size="14" class="text-pastel-amber"></i> Initial Rate Card (BDT ৳)
+                        </label>
+                        <span class="text-[11px] text-pastel-amber font-semibold">Editable later</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <span class="text-[11px] text-gray-400 block mb-1">Dedicated Video</span>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs font-bold">৳</span>
+                                <input type="number" id="rateVideo" placeholder="50000" class="w-full bg-navy-800 border border-white/10 rounded-lg py-2 pl-7 pr-2 text-sm text-white focus:outline-none focus:border-pastel-mint transition">
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[11px] text-gray-400 block mb-1">Shorts / Reel</span>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs font-bold">৳</span>
+                                <input type="number" id="rateShorts" placeholder="20000" class="w-full bg-navy-800 border border-white/10 rounded-lg py-2 pl-7 pr-2 text-sm text-white focus:outline-none focus:border-pastel-mint transition">
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[11px] text-gray-400 block mb-1">Community Post</span>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs font-bold">৳</span>
+                                <input type="number" id="rateStory" placeholder="10000" class="w-full bg-navy-800 border border-white/10 rounded-lg py-2 pl-7 pr-2 text-sm text-white focus:outline-none focus:border-pastel-mint transition">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-pastel-indigo via-pastel-mint to-pastel-amber text-navy-900 py-3.5 rounded-xl font-bold text-base hover:shadow-[0_0_25px_rgba(110,231,183,0.4)] transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2 mt-6">
+                <span id="btnText">Sign In to Dashboard</span>
+                <i data-lucide="arrow-right" size="18"></i>
+            </button>
+        </form>
+
+        <!-- Footer Notice -->
+        <p class="text-center text-xs text-gray-400 mt-6">
+            Protected by 256-bit SSL encryption & bKash Escrow Security.
+        </p>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let currentMode = 'login'; // 'login' or 'register'
+        let currentRole = 'CREATOR'; // 'BRAND' or 'CREATOR'
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrlParam = urlParams.get('returnUrl');
+        const errorParam = urlParams.get('error');
+
+        if (errorParam === 'auth_required') {
+            setTimeout(() => {
+                showAlert('error', 'Authentication required. Please sign in or create an account to access this area.');
+            }, 300);
+        }
+
+        function getPostAuthRedirect(userRole) {
+            if (returnUrlParam && !returnUrlParam.includes('auth.html')) {
+                // If the return URL is role-restricted, ensure basic sanity
+                const role = (userRole || '').toUpperCase();
+                if (returnUrlParam.includes('admin-dashboard') && role !== 'ADMIN' && role !== 'ROLE_ADMIN') {
+                    // fall through to default
+                } else if (returnUrlParam.includes('brand-dashboard') && role !== 'BRAND' && role !== 'ROLE_BRAND') {
+                    // fall through
+                } else if (returnUrlParam.includes('creator-dashboard') && role !== 'CREATOR' && role !== 'ROLE_CREATOR') {
+                    // fall through
+                } else {
+                    return decodeURIComponent(returnUrlParam);
+                }
+            }
+            const r = (userRole || '').toUpperCase();
+            if (r === 'ADMIN' || r === 'ROLE_ADMIN') return 'admin-dashboard.html';
+            if (r === 'BRAND' || r === 'ROLE_BRAND') return 'brand-dashboard.html';
+            return 'creator-dashboard.html';
+        }
+
+        function selectRole(role) {
+            currentRole = role;
+            const btnBrand = document.getElementById('role-brand');
+            const btnCreator = document.getElementById('role-creator');
+            const iconBrand = document.getElementById('role-brand-icon');
+            const iconCreator = document.getElementById('role-creator-icon');
+
+            if (role === 'BRAND') {
+                btnBrand.className = 'flex items-center gap-3 p-3.5 rounded-2xl border-2 border-pastel-mint bg-pastel-mint/10 transition text-left';
+                iconBrand.className = 'w-10 h-10 rounded-xl bg-pastel-mint text-navy-900 flex items-center justify-center font-bold';
+                
+                btnCreator.className = 'flex items-center gap-3 p-3.5 rounded-2xl border border-white/10 bg-navy-800/60 hover:border-pastel-indigo transition text-left';
+                iconCreator.className = 'w-10 h-10 rounded-xl bg-navy-900 flex items-center justify-center text-gray-400 border border-white/5';
+            } else {
+                btnCreator.className = 'flex items-center gap-3 p-3.5 rounded-2xl border-2 border-pastel-indigo bg-pastel-indigo/10 transition text-left';
+                iconCreator.className = 'w-10 h-10 rounded-xl bg-pastel-indigo text-navy-900 flex items-center justify-center font-bold';
+                
+                btnBrand.className = 'flex items-center gap-3 p-3.5 rounded-2xl border border-white/10 bg-navy-800/60 hover:border-pastel-mint transition text-left';
+                iconBrand.className = 'w-10 h-10 rounded-xl bg-navy-900 flex items-center justify-center text-gray-400 border border-white/5';
+            }
+
+            syncFieldsVisibility();
+            lucide.createIcons();
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            const btnLogin = document.getElementById('mode-login');
+            const btnRegister = document.getElementById('mode-register');
+            const nameGroup = document.getElementById('nameFieldGroup');
+            const fullNameInput = document.getElementById('fullName');
+            const btnText = document.getElementById('btnText');
+            const pageSubtitle = document.getElementById('pageSubtitle');
+
+            if (mode === 'register') {
+                btnRegister.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl transition bg-pastel-indigo text-navy-900 shadow-md flex items-center justify-center gap-2';
+                btnLogin.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl transition text-gray-400 hover:text-white flex items-center justify-center gap-2';
+                nameGroup.classList.remove('hidden');
+                fullNameInput.required = true;
+                btnText.textContent = 'Create Account & Access Dashboard';
+                pageSubtitle.textContent = 'Join Bangladesh\'s Premier Creator Escrow Network';
+            } else {
+                btnLogin.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl transition bg-pastel-indigo text-navy-900 shadow-md flex items-center justify-center gap-2';
+                btnRegister.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl transition text-gray-400 hover:text-white flex items-center justify-center gap-2';
+                nameGroup.classList.add('hidden');
+                fullNameInput.required = false;
+                btnText.textContent = 'Sign In to Dashboard';
+                pageSubtitle.textContent = 'Smart Sponsorships & AI Escrow Gateway';
+            }
+
+            syncFieldsVisibility();
+            hideAlert();
+            lucide.createIcons();
+        }
+
+        function syncFieldsVisibility() {
+            const creatorSection = document.getElementById('creatorOnboardingSection');
+            if (currentMode === 'register' && currentRole === 'CREATOR') {
+                creatorSection.classList.remove('hidden');
+            } else {
+                creatorSection.classList.add('hidden');
+            }
+        }
+
+        function showAlert(type, message) {
+            const alertBox = document.getElementById('alertBox');
+            const alertMsg = document.getElementById('alertMsg');
+            const alertIcon = document.getElementById('alertIcon');
+
+            alertBox.classList.remove('hidden', 'bg-red-500/20', 'border-red-500/40', 'text-red-300', 'bg-green-500/20', 'border-green-500/40', 'text-green-300');
+            
+            if (type === 'error') {
+                alertBox.classList.add('bg-red-500/20', 'border', 'border-red-500/40', 'text-red-300');
+                alertIcon.setAttribute('data-lucide', 'alert-circle');
+            } else {
+                alertBox.classList.add('bg-green-500/20', 'border', 'border-green-500/40', 'text-green-300');
+                alertIcon.setAttribute('data-lucide', 'check-circle-2');
+            }
+            alertMsg.textContent = message;
+            lucide.createIcons();
+        }
+
+        function hideAlert() {
+            document.getElementById('alertBox').classList.add('hidden');
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            hideAlert();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const originalBtnHtml = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i data-lucide="loader-2" class="animate-spin" size="18"></i> Processing...`;
+            lucide.createIcons();
+
+            try {
+                if (currentMode === 'register') {
+                    const fullName = document.getElementById('fullName').value.trim();
+                    let youtubeHandle = document.getElementById('youtubeHandle').value.trim();
+                    if (youtubeHandle && !youtubeHandle.startsWith('@')) {
+                        youtubeHandle = '@' + youtubeHandle;
+                    }
+
+                    const rateVideo = document.getElementById('rateVideo').value;
+                    const rateShorts = document.getElementById('rateShorts').value;
+                    const rateStory = document.getElementById('rateStory').value;
+
+                    const rateCard = {};
+                    if (rateVideo) rateCard.video = parseInt(rateVideo);
+                    if (rateShorts) rateCard.shorts = parseInt(rateShorts);
+                    if (rateStory) rateCard.story = parseInt(rateStory);
+
+                    const payload = {
+                        email,
+                        password,
+                        fullName,
+                        role: currentRole,
+                        youtubeHandle: currentRole === 'CREATOR' ? youtubeHandle : null,
+                        rateCard: currentRole === 'CREATOR' && Object.keys(rateCard).length > 0 ? rateCard : null
+                    };
+
+                    const resp = await fetch('/api/v1/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const resJson = await resp.json();
+                    if (resp.ok && resJson.success) {
+                        showAlert('success', 'Account created successfully! Redirecting...');
+                        const authData = resJson.data;
+                        localStorage.setItem('johuri_user', JSON.stringify({
+                            jwtToken: authData.jwtToken,
+                            id: authData.id,
+                            email: authData.email,
+                            name: authData.fullName,
+                            fullName: authData.fullName,
+                            role: authData.role,
+                            creatorHandle: authData.creatorHandle
+                        }));
+
+                        setTimeout(() => {
+                            window.location.href = getPostAuthRedirect(authData.role);
+                        }, 700);
+                        return;
+                    } else {
+                        throw new Error(resJson.message || 'Registration failed.');
+                    }
+                } else {
+                    // Sign In
+                    const resp = await fetch('/api/v1/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const resJson = await resp.json();
+                    if (resp.ok && resJson.success) {
+                        showAlert('success', 'Authentication successful! Redirecting...');
+                        const authData = resJson.data;
+                        localStorage.setItem('johuri_user', JSON.stringify({
+                            jwtToken: authData.jwtToken,
+                            id: authData.id,
+                            email: authData.email,
+                            name: authData.fullName,
+                            fullName: authData.fullName,
+                            role: authData.role,
+                            creatorHandle: authData.creatorHandle
+                        }));
+
+                        setTimeout(() => {
+                            window.location.href = getPostAuthRedirect(authData.role);
+                        }, 700);
+                        return;
+                    } else {
+                        throw new Error(resJson.message || 'Invalid email or password.');
+                    }
+                }
+            } catch (err) {
+                showAlert('error', err.message || 'Network error occurred. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHtml;
+                lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Dashboard - Johuri.ai</title>
+    <script src="auth-guard.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 800: '#1E293B', 900: '#0F172A' },
+                        pastel: { indigo: '#818CF8', mint: '#6EE7B7', amber: '#FCD34D' }
+                    },
+                    fontFamily: {
+                        bangla: ['"Hind Siliguri"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(129, 140, 248, 0.2); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+        .glass-card:hover { border-color: rgba(110, 231, 183, 0.6); box-shadow: 0 0 25px rgba(110, 231, 183, 0.2); }
+        .gradient-text { background: linear-gradient(135deg, #818CF8, #6EE7B7, #FCD34D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blob-bg { position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vh; background: rgba(129, 140, 248, 0.1); filter: blur(150px); border-radius: 50%; z-index: -1; pointer-events: none; }
+        .blob-bg-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vh; background: rgba(110, 231, 183, 0.08); filter: blur(120px); border-radius: 50%; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body class="bg-navy-900 text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+    
+    <div class="blob-bg"></div>
+    <div class="blob-bg-2"></div>
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 w-full z-50 glass-nav py-4">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-4 group">
+                <svg viewBox="0 0 48 48" class="w-10 h-10 group-hover:scale-105 transition transform" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <defs>
+                        <linearGradient id="brandGradientNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8" />
+                            <stop offset="100%" stop-color="#6EE7B7" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(24, 24) rotate(-15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#6EE7B7" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="4" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#6EE7B7" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(0) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#818CF8" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#818CF8" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(24, 24) rotate(15) translate(-24, -24)">
+                        <rect x="6" y="14" width="36" height="20" rx="3" fill="#0F172A" stroke="#FCD34D" stroke-width="1.5" opacity="0.9"/>
+                        <circle cx="24" cy="24" r="4" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="12" y1="24" x2="16" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                        <line x1="32" y1="24" x2="36" y2="24" stroke="#FCD34D" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(6, 6) scale(1.5)">
+                        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" fill="url(#brandGradientNav)" stroke="#0F172A" stroke-width="1"/>
+                    </g>
+                </svg>
+                <div class="flex items-center gap-2">
+                    <span class="font-bangla font-bold text-2xl tracking-wide gradient-text leading-none mt-1">জহুরী</span>
+                    <span class="font-sans text-xl font-bold text-white leading-none mt-1">Johuri.ai</span>
+                </div>
+            </a>
+            <div class="hidden md:flex gap-6 items-center font-semibold text-sm relative z-20">
+                <a href="creators.html" class="hover:text-pastel-mint transition">Marketplace</a>
+                <a href="creator-dashboard.html" class="hover:text-pastel-amber transition">Creator Dashboard</a>
+                <div class="flex items-center gap-2 bg-navy-800 border border-pastel-indigo/30 px-4 py-2 rounded-full cursor-pointer hover:border-pastel-mint transition">
+                    <div class="w-8 h-8 rounded-full bg-pastel-indigo flex items-center justify-center text-navy-900 font-bold">BR</div>
+                    <span>Brand Acme</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 py-10 w-full relative z-10">
+        <div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold mb-2">Campaign <span class="gradient-text">Overview</span></h1>
+                <p class="text-gray-400">Manage your creator partnerships, budgets, and escrow funds.</p>
+            </div>
+            <a href="creators.html" class="flex items-center gap-2 bg-gradient-to-r from-pastel-indigo/30 to-pastel-mint/30 hover:from-pastel-indigo/50 hover:to-pastel-mint/50 border border-pastel-mint/40 text-white px-5 py-2.5 rounded-full text-xs font-bold transition shadow-sm hover:shadow-[0_0_15px_rgba(110,231,183,0.3)]">
+                <i data-lucide="compass" size="16" class="text-pastel-mint"></i> Explore Creator Media Kits
+            </a>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="wallet" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Total Budget Allocated</h3>
+                <div id="statTotalBudget" class="text-3xl font-bold text-pastel-mint">৳ 0</div>
+                <p id="statBudgetSubtext" class="text-xs text-gray-500 mt-2">Active across 0 campaigns</p>
+            </div>
+            
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="users" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Active Creator Deals</h3>
+                <div id="statActiveDeals" class="text-3xl font-bold text-pastel-indigo">0</div>
+                <p class="text-xs text-gray-500 mt-2">In progress or creating content</p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="file-text" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Pending Proposals</h3>
+                <div id="statPendingDeals" class="text-3xl font-bold text-pastel-amber">0</div>
+                <p class="text-xs text-gray-500 mt-2">Awaiting escrow lock</p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:-translate-y-1">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition"><i data-lucide="check-circle" size="48"></i></div>
+                <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Completed Campaigns</h3>
+                <div id="statCompletedDeals" class="text-3xl font-bold text-white">0</div>
+                <p class="text-xs text-gray-500 mt-2">Funds released</p>
+            </div>
+        </div>
+
+        <!-- Deals Table -->
+        <div class="glass-card rounded-2xl p-6 md:p-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="briefcase" class="text-pastel-indigo"></i> Active Deals & Escrow</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 text-gray-400 text-sm uppercase tracking-wider">
+                            <th class="py-4 px-4 font-semibold">Creator</th>
+                            <th class="py-4 px-4 font-semibold">Deal Type</th>
+                            <th class="py-4 px-4 font-semibold">Amount (BDT)</th>
+                            <th class="py-4 px-4 font-semibold">Status</th>
+                            <th class="py-4 px-4 font-semibold text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dealsTableBody">
+                        <!-- Populated by JS -->
+                        <tr>
+                            <td colspan="5" class="text-center py-8 text-gray-400">
+                                <i data-lucide="loader-2" class="animate-spin inline-block mr-2"></i> Loading deals...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        let currentDeals = [];
+
+        async function fetchDeals() {
+            const tbody = document.getElementById('dealsTableBody');
+            try {
+                const response = await fetch('/api/v1/escrow/deals');
+                if (response.ok) {
+                    const result = await response.json();
+                    currentDeals = result.data || [];
+                    renderDeals(currentDeals);
+                    updateSummaryMetrics(currentDeals);
+                } else {
+                    console.error('Failed to fetch escrow deals from backend');
+                    tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-red-400">Failed to load deals. Please refresh.</td></tr>`;
+                }
+            } catch (error) {
+                console.error('Error fetching escrow deals:', error);
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-red-400">Network error fetching deals.</td></tr>`;
+            }
+        }
+
+        function updateSummaryMetrics(deals) {
+            const totalBudget = deals.reduce((acc, d) => acc + (d.budgetBDT || 0), 0);
+            const activeCount = deals.filter(d => d.status === 'ESCROW_LOCKED').length;
+            const pendingCount = deals.filter(d => d.status === 'PENDING').length;
+            const completedCount = deals.filter(d => d.status === 'COMPLETED').length;
+
+            document.getElementById('statTotalBudget').textContent = `৳ ${totalBudget.toLocaleString('en-US')}`;
+            document.getElementById('statBudgetSubtext').textContent = `Across ${deals.length} recorded deals`;
+            document.getElementById('statActiveDeals').textContent = activeCount;
+            document.getElementById('statPendingDeals').textContent = pendingCount;
+            document.getElementById('statCompletedDeals').textContent = completedCount;
+        }
+
+        function renderDeals(deals) {
+            const tbody = document.getElementById('dealsTableBody');
+            tbody.innerHTML = '';
+
+            if (!deals || deals.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-10 text-gray-400">
+                            <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+                            No campaign deals found. Create deals from the <a href="creators.html" class="text-pastel-mint underline">Marketplace</a>!
+                        </td>
+                    </tr>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            deals.forEach(deal => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-white/5 hover:bg-white/5 transition';
+
+                const creatorHandle = deal.creatorHandle || 'Unknown Creator';
+                const cleanHandle = creatorHandle.startsWith('@') ? creatorHandle.substring(1) : creatorHandle;
+                const avatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${cleanHandle}`;
+                const deliverable = deal.deliverableType || 'Integrated Sponsorship';
+                const formattedAmount = (deal.budgetBDT || 0).toLocaleString('en-US');
+
+                let badgeHTML = '';
+                let actionBtn = '';
+
+                if (deal.status === 'ESCROW_LOCKED') {
+                    badgeHTML = `<span class="inline-block px-3 py-1 rounded-full text-xs font-bold border bg-pastel-indigo/20 text-pastel-indigo border-pastel-indigo/30">🔒 ESCROW LOCKED</span>`;
+                    
+                    let proofNotice = '';
+                    if (deal.proofLink) {
+                        proofNotice = `<a href="${deal.proofLink}" target="_blank" class="block text-xs text-pastel-mint hover:underline mt-1 font-sans">View Deliverable ↗</a>`;
+                    }
+
+                    actionBtn = `
+                        <div class="flex flex-col items-end">
+                            <button onclick="releaseFunds('${deal.dealId}')" class="bg-pastel-mint text-navy-900 px-4 py-1.5 rounded-full text-xs font-bold hover:shadow-[0_0_15px_rgba(110,231,183,0.5)] transition flex items-center gap-1">
+                                <i data-lucide="check-check" class="w-3.5 h-3.5"></i> Release Funds
+                            </button>
+                            ${proofNotice}
+                        </div>
+                    `;
+                } else if (deal.status === 'COMPLETED') {
+                    badgeHTML = `<span class="inline-block px-3 py-1 rounded-full text-xs font-bold border bg-emerald-500/20 text-emerald-400 border-emerald-500/30">✓ COMPLETED</span>`;
+                    actionBtn = `<span class="text-xs text-emerald-400 font-semibold flex items-center justify-end gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Funds Released</span>`;
+                } else if (deal.status === 'PENDING') {
+                    badgeHTML = `<span class="inline-block px-3 py-1 rounded-full text-xs font-bold border bg-pastel-amber/20 text-pastel-amber border-pastel-amber/30">PENDING ESCROW</span>`;
+                    actionBtn = `<span class="text-xs text-pastel-amber">Awaiting Deposit</span>`;
+                } else {
+                    badgeHTML = `<span class="inline-block px-3 py-1 rounded-full text-xs font-bold border bg-gray-600/20 text-gray-300 border-gray-500/30">${deal.status}</span>`;
+                    actionBtn = `<span class="text-xs text-gray-400">-</span>`;
+                }
+
+                tr.innerHTML = `
+                    <td class="py-4 px-4">
+                        <div class="flex items-center gap-3">
+                            <img src="${avatar}" class="w-10 h-10 rounded-full border border-white/20 bg-white/10" alt="${creatorHandle}">
+                            <div>
+                                <a href="creator-profile.html?handle=${encodeURIComponent(cleanHandle)}" target="_blank" class="font-semibold block text-white hover:text-pastel-mint transition flex items-center gap-1.5 group">
+                                    <span>${creatorHandle}</span>
+                                    <i data-lucide="external-link" size="12" class="opacity-50 group-hover:opacity-100 transition"></i>
+                                </a>
+                                <span class="text-xs text-gray-400 font-mono">${deal.dealId || ''}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-4 text-gray-300">${deliverable}</td>
+                    <td class="py-4 px-4 font-mono font-bold text-pastel-mint">৳ ${formattedAmount}</td>
+                    <td class="py-4 px-4">
+                        ${badgeHTML}
+                    </td>
+                    <td class="py-4 px-4 text-right">
+                        <div class="flex flex-col items-end gap-2">
+                            ${actionBtn}
+                            <a href="creator-profile.html?handle=${encodeURIComponent(cleanHandle)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-pastel-mint hover:text-white bg-navy-800/80 hover:bg-navy-800 border border-pastel-mint/30 hover:border-pastel-mint px-3 py-1 rounded-full transition shadow-sm">
+                                <i data-lucide="eye" size="12"></i> View Public Media Kit
+                            </a>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        async function releaseFunds(dealId) {
+            if (!confirm(`Are you sure you want to release escrow funds for Deal #${dealId}? The payment will be disbursed to the creator.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/escrow/release-funds', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dealId: dealId })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`✓ Escrow funds for Deal #${dealId} successfully released to creator!`);
+                    await fetchDeals(); // Refresh live state
+                } else {
+                    const err = await response.json();
+                    alert('Failed to release funds: ' + (err.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error releasing funds:', error);
+                alert('Network error while releasing funds.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchDeals);
+    </script>
+<script src="auth.js"></script></body>
+</html>
+
